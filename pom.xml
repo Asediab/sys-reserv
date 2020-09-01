@@ -38,5 +38,6 @@
 
   <modules>
     <module>eureka</module>
+    <module>zuul</module>
   </modules>
 </project>
