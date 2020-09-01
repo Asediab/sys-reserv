@@ -39,5 +39,6 @@
   <modules>
     <module>eureka</module>
     <module>zuul</module>
+    <module>establishment</module>
   </modules>
 </project>
