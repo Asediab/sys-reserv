@@ -5,15 +5,25 @@
     <parent>
         <groupId>com.sys</groupId>
         <artifactId>sys-reserv</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
 
     <artifactId>zuul</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>zuul</name>
     <packaging>jar</packaging>
     <description>Zuul server</description>
 
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <property>
+                    <name>docker</name>
+                </property>
+            </activation>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>

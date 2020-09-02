@@ -1,4 +1,4 @@
-package com.sys.endroit.model;
+package com.sys.establishment.model;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

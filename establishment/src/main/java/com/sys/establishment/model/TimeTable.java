@@ -1,4 +1,4 @@
-package com.sys.endroit.model;
+package com.sys.establishment.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

@@ -6,7 +6,7 @@
 
   <groupId>com.sys</groupId>
   <artifactId>sys-reserv</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
   <name>sys-reserv</name>
 
@@ -23,6 +23,42 @@
     <maven.compiler.target>14</maven.compiler.target>
     <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>docker</id>
+      <activation>
+        <property>
+          <name>docker</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <version>1.4.13</version>
+            <configuration>
+              <repository>com.sys/${project.artifactId}</repository>
+              <tag>${project.version}</tag>
+              <buildArgs>
+                <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+              </buildArgs>
+            </configuration>
+            <executions>
+              <execution>
+                <id>default</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <dependencyManagement>
     <dependencies>
