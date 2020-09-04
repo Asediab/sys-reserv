@@ -6,12 +6,14 @@ import com.sys.establishment.dto.EstablishmentDTO;
 import com.sys.establishment.model.Comment;
 import com.sys.establishment.model.Establishment;
 import com.sys.establishment.model.QEstablishment;
+import com.sys.establishment.model.TypeOfEstablishment;
 import com.sys.establishment.service.EstablishmentService;
 import com.sys.establishment.web.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +91,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
 
-    public EstablishmentDTO toDto(Establishment establishment) {
+    private EstablishmentDTO toDto(Establishment establishment) {
         EstablishmentDTO establishmentDTO = modelMapper.map(establishment, EstablishmentDTO.class);
         return establishmentDTO;
     }

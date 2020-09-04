@@ -2,6 +2,8 @@ package com.sys.establishment.service;
 
 import com.sys.establishment.dto.EstablishmentDTO;
 import com.sys.establishment.model.Establishment;
+import com.sys.establishment.model.TypeOfEstablishment;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

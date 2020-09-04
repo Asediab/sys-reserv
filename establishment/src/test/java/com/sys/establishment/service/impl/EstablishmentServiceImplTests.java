@@ -1,4 +1,4 @@
-package com.sys.establishment;
+package com.sys.establishment.service.impl;
 
 import com.sys.establishment.dao.EstablishmentDAO;
 import com.sys.establishment.dto.EstablishmentDTO;

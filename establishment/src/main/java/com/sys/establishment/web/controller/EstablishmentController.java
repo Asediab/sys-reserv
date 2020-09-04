@@ -3,6 +3,7 @@ package com.sys.establishment.web.controller;
 import com.sys.establishment.dto.EstablishmentDTO;
 import com.sys.establishment.model.Establishment;
 import com.sys.establishment.service.EstablishmentService;
+import com.sys.establishment.service.FileUploadService;
 import com.sys.establishment.service.impl.EstablishmentServiceImpl;
 import com.sys.establishment.web.exception.EstablishmentExistException;
 import com.sys.establishment.web.exception.NotFoundException;
@@ -12,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static org.reflections.Reflections.log;
 
 @RestController
 @RequestMapping("apiEst/establishment")
@@ -25,6 +26,9 @@ public class EstablishmentController {
 
     @Autowired
     private EstablishmentService establishmentService;
+
+    @Autowired
+    FileUploadService fileUploadService;
 
     @GetMapping()
     public List<EstablishmentDTO> getEstablishments(@RequestParam (name = "name", defaultValue = "", required = false) String name,
@@ -41,17 +45,19 @@ public class EstablishmentController {
         return establishmentService.getOne(id);
     }
 
-    @PostMapping("save")
-    public ResponseEntity<Void> saveEstablishment(@RequestBody EstablishmentDTO establishmentDTO){
-        EstablishmentDTO establ = establishmentService.save(establishmentDTO);
-        if (establ == null) {
+    @PostMapping()
+    public ResponseEntity<Void> saveEstablishment(@RequestBody EstablishmentDTO establishmentDTO,
+                                                  @RequestParam("file")MultipartFile file){
+        establishmentDTO.setPicture(fileUploadService.saveFile(file, establishmentDTO));
+        EstablishmentDTO estab = establishmentService.save(establishmentDTO);
+        if (estab == null) {
             LOGGER.error("Establishment exist");
             throw new EstablishmentExistException("Establishment exist");
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping()
     public ResponseEntity<Void> deleteEstablishment(@RequestBody EstablishmentDTO establishmentDTO){
         try {
             establishmentService.delete(establishmentDTO);
@@ -61,5 +67,7 @@ public class EstablishmentController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
 }
