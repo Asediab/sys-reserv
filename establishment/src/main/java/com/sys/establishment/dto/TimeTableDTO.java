@@ -1,50 +1,28 @@
-package com.sys.establishment.model;
+package com.sys.establishment.dto;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "time_table")
-public class TimeTable implements Serializable {
+public class TimeTableDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @OneToOne(mappedBy = "timeTable")
-    private Establishment establishment;
+    private Long establishmentId;
 
-    @NotBlank
-    @Column(nullable = false)
     private String monday;
 
-    @NotBlank
-    @Column(nullable = false)
     private String tuesday;
 
-    @NotBlank
-    @Column(nullable = false)
     private String wednesday;
 
-    @NotBlank
-    @Column(nullable = false)
     private String thursday;
 
-    @NotBlank
-    @Column(nullable = false)
     private String friday;
 
-    @NotBlank
-    @Column(nullable = false)
     private String saturday;
 
-    @NotBlank
-    @Column(nullable = false)
     private String sunday;
 
-    public TimeTable() {
+    public TimeTableDTO() {
     }
 
     public Long getId() {
@@ -55,12 +33,12 @@ public class TimeTable implements Serializable {
         this.id = id;
     }
 
-    public Establishment getEstablishment() {
-        return establishment;
+    public Long getEstablishmentId() {
+        return establishmentId;
     }
 
-    public void setEstablishment(Establishment establishment) {
-        this.establishment = establishment;
+    public void setEstablishmentId(Long establishmentId) {
+        this.establishmentId = establishmentId;
     }
 
     public String getMonday() {

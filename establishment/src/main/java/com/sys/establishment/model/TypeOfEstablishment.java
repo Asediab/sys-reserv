@@ -2,10 +2,11 @@ package com.sys.establishment.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "type_of_etablishment")
-public class TypeOfEstablishment {
+public class TypeOfEstablishment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

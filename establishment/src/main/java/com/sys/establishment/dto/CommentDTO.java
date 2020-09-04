@@ -1,44 +1,27 @@
-package com.sys.establishment.model;
+package com.sys.establishment.dto;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Comment implements Serializable {
+public class CommentDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(length = 500)
     private String text;
 
-    @NotBlank
-    @Column(nullable = false)
     private String author;
 
-    @Positive
     private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "establishment_id", nullable = false)
-    private Establishment establishment;
+    private Long establishmentId;
 
-    @CreatedDate
     private Date dateCreated;
 
-    @LastModifiedDate
+
     private Date lastModifiedDate;
 
-    public Comment() {
+    public CommentDTO() {
     }
 
     public Long getId() {
@@ -73,12 +56,12 @@ public class Comment implements Serializable {
         this.userId = userId;
     }
 
-    public Establishment getEstablishment() {
-        return establishment;
+    public Long getEstablishmentId() {
+        return establishmentId;
     }
 
-    public void setEstablishment(Establishment establishment) {
-        this.establishment = establishment;
+    public void setEstablishmentId(Long establishment_id) {
+        this.establishmentId = establishment_id;
     }
 
     public Date getDateCreated() {
