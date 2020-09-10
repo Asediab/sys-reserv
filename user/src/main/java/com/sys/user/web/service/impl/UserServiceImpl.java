@@ -1,0 +1,121 @@
+package com.sys.user.web.service.impl;
+
+import com.sys.user.dao.UserDAO;
+import com.sys.user.dto.UserDTO;
+import com.sys.user.model.Role;
+import com.sys.user.model.User;
+import com.sys.user.web.exeption.NotFoundException;
+import com.sys.user.web.exeption.UserNotFoundException;
+import com.sys.user.web.service.UserService;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    private final ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    private UserDAO repository;
+
+    @Override
+    public User findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    @Override
+    public UserDTO createUser(UserDTO user) {
+
+        if (repository.findByEmail(user.getEmail()) != null) {
+            throw new IllegalArgumentException("User already exists: " + user.getEmail());
+        }
+        String password = encoder.encode(user.getPassword());
+        user.setPassword(password);
+        user.setRoles(Collections.singleton(Role.USER));
+        LOGGER.info("User was created");
+        return toDto(repository.save(toEntity(user)));
+    }
+
+    @Override
+    public UserDTO findById(Long id) {
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with this Id not found"));
+        return toDto(user);
+    }
+
+    @Override
+    public UserDTO createEmployee(UserDTO employee) {
+        if (repository.findByEmail(employee.getEmail()) != null) {
+            throw new IllegalArgumentException("User already exists: " + employee.getEmail());
+        }
+        String password = encoder.encode(employee.getPassword());
+        employee.setPassword(password);
+        employee.setRoles(Collections.singleton(Role.EMPLOYEE));
+        LOGGER.info("Employee was created");
+        return toDto(repository.save(toEntity(employee)));
+    }
+
+    @Override
+    public void deactivatedEmployById(Long employeeId) {
+        if (repository.existsById(employeeId)) {
+            User employee = repository.getOne(employeeId);
+            employee.setActive(Boolean.FALSE);
+            repository.save(employee);
+            LOGGER.info("Employee was deactivated");
+        } else {
+            throw new UserNotFoundException("Employee with this Id: " + employeeId + " not exists");
+        }
+    }
+
+    @Override
+    public void activateEmployeeById(Long employeeId) {
+        if (repository.existsById(employeeId)) {
+            User employee = repository.getOne(employeeId);
+            employee.setActive(Boolean.TRUE);
+            repository.save(employee);
+            LOGGER.info("Employee was activated");
+        } else {
+            throw new UserNotFoundException("Employee with this Id: " + employeeId + " not exists");
+        }
+    }
+
+    @Override
+    public List<UserDTO> usersByEstablishmentId(Long establishmentId) {
+        List<UserDTO> dtos = new ArrayList<>();
+        List<User> entityList = repository.findAllByEstablishmentIdAndActiveIsTrue(establishmentId);
+
+        for (User e : entityList) {
+            dtos.add(toDto(e));
+        }
+
+        if (!dtos.isEmpty()) {
+            return dtos;
+        } else {
+            LOGGER.error("Data Base is empty");
+            throw new NotFoundException("Data Base is empty");
+        }
+    }
+
+    private UserDTO toDto(User userToDto) {
+        UserDTO userDTO = modelMapper.map(userToDto, UserDTO.class);
+        userDTO.setPassword("******");
+        return userDTO;
+    }
+
+    private User toEntity(UserDTO userDTOToEntity) {
+        User user = modelMapper.map(userDTOToEntity, User.class);
+        return user;
+    }
+}
+

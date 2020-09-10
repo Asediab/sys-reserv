@@ -50,13 +50,8 @@ services:
         -DEUREKA_SERVER=http://eureka:9094/eureka
         -DCONFIG_SERVER=http://config:9093
     depends_on:
-      - "config"
       - "zuul"
-      - "user"
-      - "document"
-      - "loan"
       - "eureka"
       - "postgres"
-      - "reservation"
     ports:
       - "127.0.0.1:9097:9097"

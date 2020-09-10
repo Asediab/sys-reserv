@@ -1,0 +1,15 @@
+package com.sys.user.dao;
+
+import com.sys.user.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+
+public interface UserDAO extends JpaRepository<User, Long> {
+
+    User findByEmail(String email);
+
+    List<User> findAllByEstablishmentIdAndActiveIsTrue(Long establishmentId);
+
+}
