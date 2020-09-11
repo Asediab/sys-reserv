@@ -7,8 +7,7 @@ services:
     restart: on-failure
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://eureka:9094/eureka
-        -DCONFIG_SERVER=http://config:9093
+        -DEUREKA=http://eureka:9094/eureka
     depends_on:
       - "config"
     ports:
@@ -20,8 +19,7 @@ services:
     restart: on-failure
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://eureka:9094/eureka
-        -DCONFIG_SERVER=http://config:9093
+        -DEUREKA=http://eureka:9094/eureka
     depends_on:
       - "config"
       - "eureka"
@@ -47,8 +45,7 @@ services:
     restart: on-failure
     environment:
       - JAVA_OPTS=
-        -DEUREKA_SERVER=http://eureka:9094/eureka
-        -DCONFIG_SERVER=http://config:9093
+        -DEUREKA=http://eureka:9094/eureka
     depends_on:
       - "zuul"
       - "eureka"
