@@ -1,5 +1,8 @@
 package com.sys.establishment.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.querydsl.core.BooleanBuilder;
 import com.sys.establishment.dao.EstablishmentDAO;
 import com.sys.establishment.dto.EstablishmentDTO;
@@ -102,6 +105,14 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         for (Comment comment:comments){
             comment.setEstablishment(establishment);
         }
+        return establishment;
+    }
+
+    public EstablishmentDTO jsonToEntity(String establishmentJSON) throws JsonProcessingException {
+        EstablishmentDTO establishment;
+        ObjectMapper obj = new ObjectMapper();
+        obj.findAndRegisterModules();
+        establishment = obj.readValue(establishmentJSON, EstablishmentDTO.class);
         return establishment;
     }
 }

@@ -35,36 +35,6 @@ class CommentServiceImplTest {
     Comment comment;
     CommentDTO commentDTO;
     Establishment establishment = new Establishment();
-    TypeOfEstablishment typeOfEstablishment = new TypeOfEstablishment();
     TimeTable timeTable = new TimeTable();
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-        comment.setUserId(1L);
-        comment.setEstablishment(new Establishment());
-
-
-
-        typeOfEstablishment.setId(1L);
-        typeOfEstablishment.setType("Type");
-
-        timeTable.setEstablishment(establishment);
-        timeTable.setTuesday("1000-2000");
-        timeTable.setFriday("1000-2000");
-        timeTable.setMonday("1000-2000");
-        timeTable.setSaturday("1000-2000");
-        timeTable.setSunday("1000-2000");
-        timeTable.setThursday("1000-2000");
-        timeTable.setWednesday("1000-2000");
-
-        establishment.setAddress("Address");
-        establishment.setClients_limit(200);
-        establishment.setComments(Collections.emptyList());
-        establishment.setName("Name");
-        establishment.setTimeTable(timeTable);
-        establishment.setTypeOfEstablishment(typeOfEstablishment);
-        establishment.setDescription("Description");
-        establishment.setPicture("Pict");
-    }
 }

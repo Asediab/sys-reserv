@@ -1,5 +1,7 @@
 package com.sys.establishment.dto;
 
+import com.sys.establishment.model.TypeOfEstablishment;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
@@ -28,7 +30,7 @@ public class EstablishmentDTO implements Serializable {
     @Positive
     private int clients_limit;
 
-    private TypeOfEstablishmentDTO typeOfEstablishment;
+    private TypeOfEstablishment typeOfEstablishment;
 
     private List<CommentDTO> comments;
 
@@ -111,11 +113,11 @@ public class EstablishmentDTO implements Serializable {
         this.timeTable = timeTable;
     }
 
-    public TypeOfEstablishmentDTO getTypeOfEstablishment() {
+    public TypeOfEstablishment getTypeOfEstablishment() {
         return typeOfEstablishment;
     }
 
-    public void setTypeOfEstablishment(TypeOfEstablishmentDTO typeOfEstablishment) {
+    public void setTypeOfEstablishment(TypeOfEstablishment typeOfEstablishment) {
         this.typeOfEstablishment = typeOfEstablishment;
     }
 

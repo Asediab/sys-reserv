@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -21,9 +22,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationServiceImpl.class);
 
-    private final String MORNING = "morning";
-    private final String DAY = "day";
-    private final String EVENING = "evening";
     private final int LENGTH_VALIDATION_NUMBER = 6;
 
     private final ModelMapper modelMapper = new ModelMapper();
@@ -71,14 +69,19 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDTO createReservation(ReservationDTO reservationDTO, int limitationOfReservation) {
-        if (countReservationsByHour(reservationDTO.getBeginning()) >= limitationOfReservation){
-            LOGGER.info("Exceeded the limit of reservations for this time: " + reservationDTO.getBeginning());
-            throw new LimiteException("Exceeded the limit of reservations for this time: " + reservationDTO.getBeginning());
+        if (!availabilityOfReservationTime(reservationDTO, limitationOfReservation)){
+            LOGGER.info("Exceeded the limit of reservations for this time: " + reservationDTO.getStartOfReservation());
+            throw new LimiteException("Exceeded the limit of reservations for this time: " + reservationDTO.getStartOfReservation());
         } else {
             LOGGER.info("Reservation created");
             reservationDTO.setValidateNumber(GeneratorValidateNumber.getAlphaNumericString(LENGTH_VALIDATION_NUMBER));
             return toDto(reservationDAO.save(toEntity(reservationDTO)));
         }
+    }
+
+    private Boolean availabilityOfReservationTime (ReservationDTO reservationDTO, int limitationOfReservations) {
+        Long count = reservationDAO.countReservationsByStartOfReservationIsLessThanEqualAndEndOfReservationEquals(reservationDTO.getStartOfReservation(), reservationDTO.getEndOfReservation());
+        return count < limitationOfReservations;
     }
 
     @Override
@@ -109,65 +112,8 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public LinkedHashMap<String, Long> getAvailableTimeMorningForEstablishment(Long establishmentId) {
-        if(reservationDAO.existsById(establishmentId)) {
-            return countReservationsByPartOfDay(MORNING);
-        } else {
-            throw new NotFoundException("Reservation with this id: " + establishmentId + " not exist");
-        }
-    }
-
-    @Override
-    public LinkedHashMap<String, Long> getAvailableTimeDayForEstablishment(Long establishmentId) {
-        if(reservationDAO.existsById(establishmentId)) {
-            return countReservationsByPartOfDay(DAY);
-        } else {
-            throw new NotFoundException("Reservation with this id: " + establishmentId + " not exist");
-        }
-    }
-
-    @Override
-    public LinkedHashMap<String, Long> getAvailableTimeEveningForEstablishment(Long establishmentId) {
-        if(reservationDAO.existsById(establishmentId)) {
-            return countReservationsByPartOfDay(EVENING);
-        } else {
-            throw new NotFoundException("Reservation with this id: " + establishmentId + " not exist");
-        }
-    }
-
-    @Override
-    public boolean existsByUserAndEstablAndBegins(Long userId, Long establishmentId, int beginning) {
-        return reservationDAO.existsByUserIdAndEstablishmentIdAndBeginning(userId, establishmentId, beginning);
-    }
-
-    private LinkedHashMap<String, Long> countReservationsByPartOfDay(String partOfDay) {
-        LinkedHashMap<String, Long> map = new LinkedHashMap<>();
-        switch (partOfDay) {
-            case (MORNING):
-                for (int i = 6; i <= 12; i++){
-                    map.put(i + ":00", countReservationsByHour(i));
-                }
-                break;
-            case (DAY):
-                for (int i = 13; i <= 17; i++){
-                    map.put(i + ":00", countReservationsByHour(i));
-                }
-                break;
-            case (EVENING):
-                for (int i = 18; i <= 23; i++){
-                    map.put(i + ":00", countReservationsByHour(i));
-                }
-                break;
-        }
-        return map;
-    }
-
-    private Long countReservationsByHour(int i) {
-        Long numberOfReservations = reservationDAO.countByBeginning(i);
-        numberOfReservations += reservationDAO.countByBeginningAndNumberOfHours(i-1, 2);
-        numberOfReservations += reservationDAO.countByBeginningAndNumberOfHours(i-2, 3);
-        numberOfReservations += reservationDAO.countByBeginningAndNumberOfHours(i-3, 3);
-        return numberOfReservations;
+    public boolean existsByUserAndEstablAndStartOfReservation(Long userId, Long establishmentId, Date startOfReservation) {
+        return reservationDAO.existsByUserIdAndEstablishmentIdAndStartOfReservation(userId, establishmentId, startOfReservation);
     }
 
     private ReservationDTO toDto(Reservation reservation) {

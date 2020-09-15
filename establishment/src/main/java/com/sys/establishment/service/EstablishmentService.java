@@ -1,5 +1,6 @@
 package com.sys.establishment.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sys.establishment.dto.EstablishmentDTO;
 import com.sys.establishment.model.Establishment;
 import com.sys.establishment.model.TypeOfEstablishment;
@@ -14,5 +15,6 @@ public interface EstablishmentService {
     EstablishmentDTO save(EstablishmentDTO establishment);
     void delete(EstablishmentDTO establishment);
     EstablishmentDTO getOne(Long id);
+    EstablishmentDTO jsonToEntity(String establishmentJSON) throws JsonProcessingException;
 
 }

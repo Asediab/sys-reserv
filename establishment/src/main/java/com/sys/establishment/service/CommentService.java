@@ -7,5 +7,4 @@ public interface CommentService {
     CommentDTO save(CommentDTO commentDTO);
     void delete(CommentDTO commentDTO);
     CommentDTO detOne(Long id);
-
 }

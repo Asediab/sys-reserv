@@ -12,4 +12,5 @@ public class EstablishmentApplication {
         SpringApplication.run(EstablishmentApplication.class, args);
     }
 
+
 }

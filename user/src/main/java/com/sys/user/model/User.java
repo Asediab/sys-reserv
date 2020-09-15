@@ -23,10 +23,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(columnDefinition = "true")
+    @Column
     private boolean active;
 
-    @Column(columnDefinition = "-1")
+    @Column
     private Long establishmentId;
 
     @JsonIgnore

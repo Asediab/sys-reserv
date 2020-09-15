@@ -43,11 +43,11 @@ public class Establishment implements Serializable {
     @Positive
     private int clients_limit;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = TypeOfEstablishment.class)
-    @JoinColumn(name = "type_of_establishment_id", nullable = false)
+    @CollectionTable(name = "establishment_type", joinColumns = @JoinColumn(name = "establishment_id"))
+    @Enumerated(EnumType.STRING)
     private TypeOfEstablishment typeOfEstablishment;
 
-    @OneToMany(mappedBy = "establishment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "establishment", fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     @CreatedDate

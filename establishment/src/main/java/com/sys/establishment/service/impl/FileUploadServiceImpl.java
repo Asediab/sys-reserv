@@ -1,7 +1,7 @@
 package com.sys.establishment.service.impl;
 
 import com.sys.establishment.dto.EstablishmentDTO;
-import com.sys.establishment.dto.TypeOfEstablishmentDTO;
+import com.sys.establishment.model.TypeOfEstablishment;
 import com.sys.establishment.service.FileUploadService;
 import com.sys.establishment.web.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 @Service
@@ -54,13 +58,13 @@ public class FileUploadServiceImpl implements FileUploadService {
     }
 
     private String setDefaultPicture(EstablishmentDTO establishmentDTO) {
-        if (establishmentDTO.getTypeOfEstablishment().getType().equals(POOL)){
+        if (establishmentDTO.getTypeOfEstablishment().equals(TypeOfEstablishment.POOL)){
             return DEFAULT_PICTURE_POOL;
         }
-        if (establishmentDTO.getTypeOfEstablishment().getType().equals(SPORTS_COMPLEX)){
+        if (establishmentDTO.getTypeOfEstablishment().equals(TypeOfEstablishment.SPORTS_COMPLEX)){
             return DEFAULT_PICTURE_SPORTS_COMPLEX;
         }
-        if (establishmentDTO.getTypeOfEstablishment().getType().equals(MEDIA_LIBRARY)){
+        if (establishmentDTO.getTypeOfEstablishment().equals(TypeOfEstablishment.MEDIA_LIBRARY)){
             return DEFAULT_PICTURE_MEDIA_LIBRARY;
         }
         return DEFAULT_PICTURE;
@@ -72,7 +76,13 @@ public class FileUploadServiceImpl implements FileUploadService {
             uploadDirectory.mkdirs();
         }
         try {
-            file.transferTo(new File(uploadPath + "/" + file.getOriginalFilename()));
+            Path paths = Paths.get(uploadPath).toAbsolutePath().normalize();
+            Path targetLocation = paths.resolve(Objects.requireNonNull(file.getOriginalFilename()));
+
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+
+//            file.transferTo(new File(uploadPath + "/" + file.getOriginalFilename()));
             return file.getOriginalFilename();
         } catch (IOException e) {
            throw  new NotFoundException("Could not store file " + file.getOriginalFilename() + ". Please try again!");

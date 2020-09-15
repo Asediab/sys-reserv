@@ -3,6 +3,7 @@ package com.sys.establishment.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class CommentDTO implements Serializable {
 
@@ -78,5 +79,35 @@ public class CommentDTO implements Serializable {
 
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentDTO{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", author='" + author + '\'' +
+                ", userId=" + userId +
+                ", establishmentId=" + establishmentId +
+                ", dateCreated=" + dateCreated +
+                ", lastModifiedDate=" + lastModifiedDate +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommentDTO that = (CommentDTO) o;
+        return Objects.equals(id, that.id) &&
+                text.equals(that.text) &&
+                author.equals(that.author) &&
+                userId.equals(that.userId) &&
+                establishmentId.equals(that.establishmentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, author, userId, establishmentId);
     }
 }

@@ -1,5 +1,6 @@
 package com.sys.reservation.dto;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -27,10 +28,10 @@ public class ReservationDTO implements Serializable {
     private boolean valid;
 
     @NotNull
-    private int beginning;
+    private Date startOfReservation;
 
     @NotNull
-    private int numberOfHours;
+    private Date endOfReservation;
 
     private Date dateCreated;
 
@@ -87,20 +88,20 @@ public class ReservationDTO implements Serializable {
         this.validateNumber = validateNumber;
     }
 
-    public int getBeginning() {
-        return beginning;
+    public Date getStartOfReservation() {
+        return startOfReservation;
     }
 
-    public void setBeginning(int beginning) {
-        this.beginning = beginning;
+    public void setStartOfReservation(Date startOfReservation) {
+        this.startOfReservation = startOfReservation;
     }
 
-    public int getNumberOfHours() {
-        return numberOfHours;
+    public Date getEndOfReservation() {
+        return endOfReservation;
     }
 
-    public void setNumberOfHours(int numberOfHours) {
-        this.numberOfHours = numberOfHours;
+    public void setEndOfReservation(Date endOfReservation) {
+        this.endOfReservation = endOfReservation;
     }
 
     public Date getDateCreated() {

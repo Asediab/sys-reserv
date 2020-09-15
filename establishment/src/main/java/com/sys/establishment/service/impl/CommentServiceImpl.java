@@ -4,6 +4,7 @@ import com.sys.establishment.dao.CommentDAO;
 import com.sys.establishment.dao.EstablishmentDAO;
 import com.sys.establishment.dto.CommentDTO;
 import com.sys.establishment.model.Comment;
+import com.sys.establishment.model.Establishment;
 import com.sys.establishment.service.CommentService;
 import com.sys.establishment.web.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
@@ -37,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
         if (!commentDAO.existsById(commentDTO.getId())){
             throw new NotFoundException("Comment with this id not exist");
         } else {
-            commentDAO.delete(toEntity(commentDTO));
+            commentDAO.deleteById(commentDTO.getId());
             LOGGER.info("Comment deleted");
         }
     }
@@ -54,7 +55,8 @@ public class CommentServiceImpl implements CommentService {
 
     private Comment toEntity(CommentDTO commentDTO) {
         Comment comment = modelMapper.map(commentDTO, Comment.class);
-        comment.setEstablishment(establishmentDAO.getOne(commentDTO.getEstablishmentId()));
+        Long id = commentDTO.getEstablishmentId();
+        comment.setEstablishment(establishmentDAO.getOne(id));
         return comment;
     }
 }

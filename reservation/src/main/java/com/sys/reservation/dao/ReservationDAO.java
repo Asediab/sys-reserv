@@ -3,6 +3,7 @@ package com.sys.reservation.dao;
 import com.sys.reservation.model.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ReservationDAO extends JpaRepository<Reservation, Long> {
@@ -13,13 +14,9 @@ public interface ReservationDAO extends JpaRepository<Reservation, Long> {
 
     Reservation findByValidateNumber(String validationNumber);
 
-    List<Reservation> findAllByBeginningAndNumberOfHours(int beginning, int numberOfHours);
-
-    Long countByBeginningAndNumberOfHours(int beginning, int numberOfHours);
-
-    Long countByBeginning(int beginning);
+    Long countReservationsByStartOfReservationIsLessThanEqualAndEndOfReservationEquals(Date startOfReservation, Date endOfReservation);
 
     boolean existsByValidateNumber(String validationNumber);
 
-    boolean existsByUserIdAndEstablishmentIdAndBeginning(Long userId, Long establishmentId, int beginning);
+    boolean existsByUserIdAndEstablishmentIdAndStartOfReservation(Long userId, Long establishmentId, Date startOfReservation);
 }

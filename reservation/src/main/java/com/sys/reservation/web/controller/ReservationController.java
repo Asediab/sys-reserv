@@ -40,7 +40,7 @@ public class ReservationController {
     @PostMapping("add")
     public ResponseEntity<Void> saveReservation(@RequestBody ReservationDTO reservationDTO,
                                                   @RequestParam("limit") int limit){
-        if (service.existsByUserAndEstablAndBegins(reservationDTO.getUserId(), reservationDTO.getEstablishmentId(), reservationDTO.getBeginning())) {
+        if (service.existsByUserAndEstablAndStartOfReservation(reservationDTO.getUserId(), reservationDTO.getEstablishmentId(), reservationDTO.getStartOfReservation())) {
             LOGGER.error("Reservation exist");
             throw new ReservationExistException("Reservation exist");
         } else {
@@ -67,23 +67,7 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             service.validateReservation(validateNumb);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
     }
-
-    @GetMapping("accessibilityDay/{id}")
-    public LinkedHashMap<String, Long> getListAccessibilityDay(@PathVariable("id") Long id) {
-        return service.getAvailableTimeDayForEstablishment(id);
-    }
-
-    @GetMapping("accessibilityMorning/{id}")
-    public LinkedHashMap<String, Long> getListAccessibilityMorning(@PathVariable("id") Long id) {
-        return service.getAvailableTimeMorningForEstablishment(id);
-    }
-
-    @GetMapping("accessibilityEvening/{id}")
-    public LinkedHashMap<String, Long> getListAccessibilityEvening(@PathVariable("id") Long id) {
-        return service.getAvailableTimeEveningForEstablishment(id);
-    }
-
 }

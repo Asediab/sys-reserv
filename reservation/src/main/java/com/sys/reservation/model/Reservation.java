@@ -40,16 +40,15 @@ public class Reservation implements Serializable {
     private String validateNumber;
 
     @NotNull
-    @Column(columnDefinition = "false")
     private boolean valid;
 
     @NotNull
     @Column(nullable = false)
-    private int beginning;
+    private Date startOfReservation;
 
     @NotNull
     @Column(nullable = false)
-    private int numberOfHours;
+    private Date endOfReservation;
 
     @CreatedDate
     private Date dateCreated;
@@ -108,20 +107,20 @@ public class Reservation implements Serializable {
         this.validateNumber = validateNumber;
     }
 
-    public int getBeginning() {
-        return beginning;
+    public Date getStartOfReservation() {
+        return startOfReservation;
     }
 
-    public void setBeginning(int beginning) {
-        this.beginning = beginning;
+    public void setStartOfReservation(Date startOfReservation) {
+        this.startOfReservation = startOfReservation;
     }
 
-    public int getNumberOfHours() {
-        return numberOfHours;
+    public Date getEndOfReservation() {
+        return endOfReservation;
     }
 
-    public void setNumberOfHours(int numberOfHours) {
-        this.numberOfHours = numberOfHours;
+    public void setEndOfReservation(Date endOfReservation) {
+        this.endOfReservation = endOfReservation;
     }
 
     public Date getDateCreated() {
