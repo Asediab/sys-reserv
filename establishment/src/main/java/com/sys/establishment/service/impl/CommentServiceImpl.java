@@ -34,11 +34,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(CommentDTO commentDTO) {
-        if (!commentDAO.existsById(commentDTO.getId())){
+    public void delete(Long id) {
+        if (!commentDAO.existsById(id)){
             throw new NotFoundException("Comment with this id not exist");
         } else {
-            commentDAO.deleteById(commentDTO.getId());
+            commentDAO.deleteById(id);
             LOGGER.info("Comment deleted");
         }
     }

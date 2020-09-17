@@ -22,101 +22,101 @@ public class TimeTable implements Serializable {
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime mondayAMStart;
+    private Date mondayAMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime mondayAMEnd;
+    private Date mondayAMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime mondayPMStart;
+    private Date mondayPMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime mondayPMEnd;
+    private Date mondayPMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime tuesdayAMStart;
+    private Date tuesdayAMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime tuesdayAMEnd;
+    private Date tuesdayAMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime tuesdayPMStart;
+    private Date tuesdayPMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime tuesdayPMEnd;
+    private Date tuesdayPMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime wednesdayAMStart;
+    private Date wednesdayAMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime wednesdayAMEnd;
+    private Date wednesdayAMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime wednesdayPMStart;
+    private Date wednesdayPMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime wednesdayPMEnd;
+    private Date wednesdayPMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime thursdayAMStart;
+    private Date thursdayAMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime thursdayAMEnd;
+    private Date thursdayAMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime thursdayPMStart;
+    private Date thursdayPMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime thursdayPMEnd;
+    private Date thursdayPMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime fridayAMStart;
+    private Date fridayAMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime fridayAMEnd;
+    private Date fridayAMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime fridayPMStart;
+    private Date fridayPMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime fridayPMEnd;
+    private Date fridayPMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime saturdayAMStart;
+    private Date saturdayAMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime saturdayAMEnd;
+    private Date saturdayAMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime saturdayPMStart;
+    private Date saturdayPMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime saturdayPMEnd;
+    private Date saturdayPMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime sundayAMStart;
+    private Date sundayAMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime sundayAMEnd;
+    private Date sundayAMEnd;
 
     @NotNull
     @Column(nullable = false)
-    private LocalTime sundayPMStart;
+    private Date sundayPMStart;
     @NotNull
     @Column(nullable = false)
-    private LocalTime sundayPMEnd;
+    private Date sundayPMEnd;
 
     public TimeTable() {
     }
@@ -137,227 +137,227 @@ public class TimeTable implements Serializable {
         this.establishment = establishment;
     }
 
-    public LocalTime getMondayAMStart() {
+    public Date getMondayAMStart() {
         return mondayAMStart;
     }
 
-    public void setMondayAMStart(LocalTime mondayAMStart) {
+    public void setMondayAMStart(Date mondayAMStart) {
         this.mondayAMStart = mondayAMStart;
     }
 
-    public LocalTime getMondayAMEnd() {
+    public Date getMondayAMEnd() {
         return mondayAMEnd;
     }
 
-    public void setMondayAMEnd(LocalTime mondayAMEnd) {
+    public void setMondayAMEnd(Date mondayAMEnd) {
         this.mondayAMEnd = mondayAMEnd;
     }
 
-    public LocalTime getMondayPMStart() {
+    public Date getMondayPMStart() {
         return mondayPMStart;
     }
 
-    public void setMondayPMStart(LocalTime mondayPMStart) {
+    public void setMondayPMStart(Date mondayPMStart) {
         this.mondayPMStart = mondayPMStart;
     }
 
-    public LocalTime getMondayPMEnd() {
+    public Date getMondayPMEnd() {
         return mondayPMEnd;
     }
 
-    public void setMondayPMEnd(LocalTime mondayPMEnd) {
+    public void setMondayPMEnd(Date mondayPMEnd) {
         this.mondayPMEnd = mondayPMEnd;
     }
 
-    public LocalTime getTuesdayAMStart() {
+    public Date getTuesdayAMStart() {
         return tuesdayAMStart;
     }
 
-    public void setTuesdayAMStart(LocalTime tuesdayAMStart) {
+    public void setTuesdayAMStart(Date tuesdayAMStart) {
         this.tuesdayAMStart = tuesdayAMStart;
     }
 
-    public LocalTime getTuesdayAMEnd() {
+    public Date getTuesdayAMEnd() {
         return tuesdayAMEnd;
     }
 
-    public void setTuesdayAMEnd(LocalTime tuesdayAMEnd) {
+    public void setTuesdayAMEnd(Date tuesdayAMEnd) {
         this.tuesdayAMEnd = tuesdayAMEnd;
     }
 
-    public LocalTime getTuesdayPMStart() {
+    public Date getTuesdayPMStart() {
         return tuesdayPMStart;
     }
 
-    public void setTuesdayPMStart(LocalTime tuesdayPMStart) {
+    public void setTuesdayPMStart(Date tuesdayPMStart) {
         this.tuesdayPMStart = tuesdayPMStart;
     }
 
-    public LocalTime getTuesdayPMEnd() {
+    public Date getTuesdayPMEnd() {
         return tuesdayPMEnd;
     }
 
-    public void setTuesdayPMEnd(LocalTime tuesdayPMEnd) {
+    public void setTuesdayPMEnd(Date tuesdayPMEnd) {
         this.tuesdayPMEnd = tuesdayPMEnd;
     }
 
-    public LocalTime getWednesdayAMStart() {
+    public Date getWednesdayAMStart() {
         return wednesdayAMStart;
     }
 
-    public void setWednesdayAMStart(LocalTime wednesdayAMStart) {
+    public void setWednesdayAMStart(Date wednesdayAMStart) {
         this.wednesdayAMStart = wednesdayAMStart;
     }
 
-    public LocalTime getWednesdayAMEnd() {
+    public Date getWednesdayAMEnd() {
         return wednesdayAMEnd;
     }
 
-    public void setWednesdayAMEnd(LocalTime wednesdayAMEnd) {
+    public void setWednesdayAMEnd(Date wednesdayAMEnd) {
         this.wednesdayAMEnd = wednesdayAMEnd;
     }
 
-    public LocalTime getWednesdayPMStart() {
+    public Date getWednesdayPMStart() {
         return wednesdayPMStart;
     }
 
-    public void setWednesdayPMStart(LocalTime wednesdayPMStart) {
+    public void setWednesdayPMStart(Date wednesdayPMStart) {
         this.wednesdayPMStart = wednesdayPMStart;
     }
 
-    public LocalTime getWednesdayPMEnd() {
+    public Date getWednesdayPMEnd() {
         return wednesdayPMEnd;
     }
 
-    public void setWednesdayPMEnd(LocalTime wednesdayPMEnd) {
+    public void setWednesdayPMEnd(Date wednesdayPMEnd) {
         this.wednesdayPMEnd = wednesdayPMEnd;
     }
 
-    public LocalTime getThursdayAMStart() {
+    public Date getThursdayAMStart() {
         return thursdayAMStart;
     }
 
-    public void setThursdayAMStart(LocalTime thursdayAMStart) {
+    public void setThursdayAMStart(Date thursdayAMStart) {
         this.thursdayAMStart = thursdayAMStart;
     }
 
-    public LocalTime getThursdayAMEnd() {
+    public Date getThursdayAMEnd() {
         return thursdayAMEnd;
     }
 
-    public void setThursdayAMEnd(LocalTime thursdayAMEnd) {
+    public void setThursdayAMEnd(Date thursdayAMEnd) {
         this.thursdayAMEnd = thursdayAMEnd;
     }
 
-    public LocalTime getThursdayPMStart() {
+    public Date getThursdayPMStart() {
         return thursdayPMStart;
     }
 
-    public void setThursdayPMStart(LocalTime thursdayPMStart) {
+    public void setThursdayPMStart(Date thursdayPMStart) {
         this.thursdayPMStart = thursdayPMStart;
     }
 
-    public LocalTime getThursdayPMEnd() {
+    public Date getThursdayPMEnd() {
         return thursdayPMEnd;
     }
 
-    public void setThursdayPMEnd(LocalTime thursdayPMEnd) {
+    public void setThursdayPMEnd(Date thursdayPMEnd) {
         this.thursdayPMEnd = thursdayPMEnd;
     }
 
-    public LocalTime getFridayAMStart() {
+    public Date getFridayAMStart() {
         return fridayAMStart;
     }
 
-    public void setFridayAMStart(LocalTime fridayAMStart) {
+    public void setFridayAMStart(Date fridayAMStart) {
         this.fridayAMStart = fridayAMStart;
     }
 
-    public LocalTime getFridayAMEnd() {
+    public Date getFridayAMEnd() {
         return fridayAMEnd;
     }
 
-    public void setFridayAMEnd(LocalTime fridayAMEnd) {
+    public void setFridayAMEnd(Date fridayAMEnd) {
         this.fridayAMEnd = fridayAMEnd;
     }
 
-    public LocalTime getFridayPMStart() {
+    public Date getFridayPMStart() {
         return fridayPMStart;
     }
 
-    public void setFridayPMStart(LocalTime fridayPMStart) {
+    public void setFridayPMStart(Date fridayPMStart) {
         this.fridayPMStart = fridayPMStart;
     }
 
-    public LocalTime getFridayPMEnd() {
+    public Date getFridayPMEnd() {
         return fridayPMEnd;
     }
 
-    public void setFridayPMEnd(LocalTime fridayPMEnd) {
+    public void setFridayPMEnd(Date fridayPMEnd) {
         this.fridayPMEnd = fridayPMEnd;
     }
 
-    public LocalTime getSaturdayAMStart() {
+    public Date getSaturdayAMStart() {
         return saturdayAMStart;
     }
 
-    public void setSaturdayAMStart(LocalTime saturdayAMStart) {
+    public void setSaturdayAMStart(Date saturdayAMStart) {
         this.saturdayAMStart = saturdayAMStart;
     }
 
-    public LocalTime getSaturdayAMEnd() {
+    public Date getSaturdayAMEnd() {
         return saturdayAMEnd;
     }
 
-    public void setSaturdayAMEnd(LocalTime saturdayAMEnd) {
+    public void setSaturdayAMEnd(Date saturdayAMEnd) {
         this.saturdayAMEnd = saturdayAMEnd;
     }
 
-    public LocalTime getSaturdayPMStart() {
+    public Date getSaturdayPMStart() {
         return saturdayPMStart;
     }
 
-    public void setSaturdayPMStart(LocalTime saturdayPMStart) {
+    public void setSaturdayPMStart(Date saturdayPMStart) {
         this.saturdayPMStart = saturdayPMStart;
     }
 
-    public LocalTime getSaturdayPMEnd() {
+    public Date getSaturdayPMEnd() {
         return saturdayPMEnd;
     }
 
-    public void setSaturdayPMEnd(LocalTime saturdayPMEnd) {
+    public void setSaturdayPMEnd(Date saturdayPMEnd) {
         this.saturdayPMEnd = saturdayPMEnd;
     }
 
-    public LocalTime getSundayAMStart() {
+    public Date getSundayAMStart() {
         return sundayAMStart;
     }
 
-    public void setSundayAMStart(LocalTime sundayAMStart) {
+    public void setSundayAMStart(Date sundayAMStart) {
         this.sundayAMStart = sundayAMStart;
     }
 
-    public LocalTime getSundayAMEnd() {
+    public Date getSundayAMEnd() {
         return sundayAMEnd;
     }
 
-    public void setSundayAMEnd(LocalTime sundayAMEnd) {
+    public void setSundayAMEnd(Date sundayAMEnd) {
         this.sundayAMEnd = sundayAMEnd;
     }
 
-    public LocalTime getSundayPMStart() {
+    public Date getSundayPMStart() {
         return sundayPMStart;
     }
 
-    public void setSundayPMStart(LocalTime sundayPMStart) {
+    public void setSundayPMStart(Date sundayPMStart) {
         this.sundayPMStart = sundayPMStart;
     }
 
-    public LocalTime getSundayPMEnd() {
+    public Date getSundayPMEnd() {
         return sundayPMEnd;
     }
 
-    public void setSundayPMEnd(LocalTime sundayPMEnd) {
+    public void setSundayPMEnd(Date sundayPMEnd) {
         this.sundayPMEnd = sundayPMEnd;
     }
 }

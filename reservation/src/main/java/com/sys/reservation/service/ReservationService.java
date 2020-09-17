@@ -11,7 +11,7 @@ public interface ReservationService {
     List<ReservationDTO> getAllByEstablishmentId(Long establishmentId);
     List<ReservationDTO> getAllByUserId(Long userId);
     ReservationDTO createReservation(ReservationDTO reservationDTO, int limitationOfReservation);
-    void deleteReservation(ReservationDTO reservationDTO);
+    void deleteReservation(Long id);
     void validateReservation(String validationNumber);
     boolean existsByUserAndEstablAndStartOfReservation(Long userId, Long establishmentId, Date startOfReservation);
     boolean existByValidNumb(String validationNumber);

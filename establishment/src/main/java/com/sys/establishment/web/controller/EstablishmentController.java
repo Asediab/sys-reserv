@@ -11,15 +11,19 @@ import com.sys.establishment.web.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("apiEst/establishment")
 public class EstablishmentController {
@@ -68,10 +72,10 @@ public class EstablishmentController {
     }
 
 
-    @DeleteMapping()
-    public ResponseEntity<Void> deleteEstablishment(@RequestBody EstablishmentDTO establishmentDTO){
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteEstablishment(@PathVariable("id") Long id){
         try {
-            establishmentService.delete(establishmentDTO);
+            establishmentService.delete(id);
             return ResponseEntity.ok().build();
         } catch (NotFoundException ex) {
             LOGGER.error(ex.getMessage());
@@ -79,6 +83,16 @@ public class EstablishmentController {
         }
     }
 
+    @GetMapping(value = "/image")
+    ResponseEntity<Resource> read(@RequestParam String name) {
+        Resource fileSystemResource = fileUploadService.getFile(name);
+        if (fileSystemResource.isFile()) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(fileSystemResource);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
+    }
 
 }

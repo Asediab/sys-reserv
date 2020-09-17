@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("apiRes/reservation")
 public class ReservationController {
@@ -49,10 +50,10 @@ public class ReservationController {
         }
     }
 
-    @DeleteMapping("delete")
-    public ResponseEntity<Void> deleteReservation(@RequestBody ReservationDTO reservationDTO){
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteReservation(@PathVariable("id") Long id){
         try {
-            service.deleteReservation(reservationDTO);
+            service.deleteReservation(id);
             return ResponseEntity.ok().build();
         } catch (NotFoundException ex) {
             LOGGER.error(ex.getMessage());
@@ -60,7 +61,7 @@ public class ReservationController {
         }
     }
 
-    @PutMapping("valid/{validateNumb}")
+    @GetMapping("valid/{validateNumb}")
     public ResponseEntity<Void> validateReservation(@PathVariable("validateNumb") String validateNumb){
         if (!service.existByValidNumb(validateNumb)) {
             LOGGER.error("Reservation with validateNumber: " + validateNumb + " not exist");

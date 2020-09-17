@@ -1,0 +1,36 @@
+<div class="container">
+  <div *ngIf="!reservations; else table">
+    <h3 class="text-center m-5">Vous n'avez aucune réservation pour le moment</h3>
+  </div>
+  <ng-template #table>
+    <table class="table m-1">
+    <thead class="thead-dark">
+    <tr>
+      <th style="width: 20rem" scope="col">Nome</th>
+      <th scope="col">Date de création</th>
+      <th scope="col">Créneau</th>
+      <th scope="col">Numéro de validation</th>
+      <th scope="col">Statut</th>
+      <th scope="col">Options</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let reservation of reservations | slice: (page-1) * 10 : (page-1) * 10 + 10">
+      <th scope="row">{{reservation.establishmentName}}</th>
+      <td>{{reservation.dateCreated | date: 'mediumDate'}}</td>
+      <td>{{reservation.startOfReservation | date: 'MMM d,HH:mm'}} - {{reservation.endOfReservation | date: 'HH:mm'}}</td>
+      <td>{{reservation.validateNumber}}</td>
+      <td *ngIf="reservation.valid; else invalid">Actif</td>
+      <ng-template #invalid>
+        <td>En attente</td>
+      </ng-template>
+      <td>
+        <button class="btn-danger" (click)="deleteReservation(reservation.id)">Supprimer</button>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+    <ngb-pagination [collectionSize]="reservations.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true" class="row center"></ngb-pagination>
+  </ng-template>
+</div>

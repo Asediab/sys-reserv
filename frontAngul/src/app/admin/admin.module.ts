@@ -1,20 +1,27 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AdminLayoutComponent } from './shared/components/admin-layout/admin-layout.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+import {LoginPageComponent} from '../shared/components/login-page/login-page.component';
+import {SharedModule} from '../shared/shared.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NewEstablishmentComponent } from './new-establishment/new-establishment.component';
+import { ListEmployeesComponent } from './list-employees/list-employees.component';
+import { NewEmployeeComponent } from './new-employee/new-employee.component';
 
 
 
 @NgModule({
-  declarations: [AdminLayoutComponent, LoginPageComponent],
+  declarations: [AdminLayoutComponent, DashboardComponent, NewEstablishmentComponent, ListEmployeesComponent, NewEmployeeComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     RouterModule.forChild([
       {
         path: '', component: AdminLayoutComponent, children: [
-          {path: '', redirectTo: '/service/login', pathMatch: 'full'},
-          {path: 'login', component: LoginPageComponent}
+          {path: '', redirectTo: '/login', pathMatch: 'full'},
+          {path: ':id', component: NewEstablishmentComponent},
+          {path: 'employees/:id', component: ListEmployeesComponent},
+          {path: 'dashboard', component: DashboardComponent},
+          {path: 'addEmployee', component: NewEmployeeComponent}
         ]
       }
     ])
@@ -22,5 +29,4 @@ import { LoginPageComponent } from './login-page/login-page.component';
   exports: [RouterModule]
 })
 export class AdminModule {
-
 }

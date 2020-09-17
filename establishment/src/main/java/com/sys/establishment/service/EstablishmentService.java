@@ -13,7 +13,7 @@ public interface EstablishmentService {
     List<EstablishmentDTO> getAll();
     List<EstablishmentDTO> searchBy(String name, String typeId);
     EstablishmentDTO save(EstablishmentDTO establishment);
-    void delete(EstablishmentDTO establishment);
+    void delete(Long id);
     EstablishmentDTO getOne(Long id);
     EstablishmentDTO jsonToEntity(String establishmentJSON) throws JsonProcessingException;
 

@@ -78,11 +78,11 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public void delete(EstablishmentDTO establishment) {
-        if (!establishmentDAO.existsById(establishment.getId())){
+    public void delete(Long id) {
+        if (!establishmentDAO.existsById(id)){
             throw new NotFoundException("Establishment with this id not exist");
         } else {
-            establishmentDAO.delete(toEntity(establishment));
+            establishmentDAO.deleteById(id);
             LOGGER.info("Establishment deleted");
         }
     }

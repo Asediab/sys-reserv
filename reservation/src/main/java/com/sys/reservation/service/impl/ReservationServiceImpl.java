@@ -85,11 +85,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void deleteReservation(ReservationDTO reservationDTO) {
-        if (!reservationDAO.existsById(reservationDTO.getId())){
+    public void deleteReservation(Long id) {
+        if (!reservationDAO.existsById(id)){
             throw new NotFoundException("Reservation with this id not exist");
         } else {
-            reservationDAO.delete(toEntity(reservationDTO));
+            reservationDAO.deleteById(id);
             LOGGER.info("Reservation deleted");
         }
     }

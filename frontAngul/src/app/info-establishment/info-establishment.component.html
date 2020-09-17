@@ -1,0 +1,82 @@
+<div class="container m-2">
+  <div class="jumbotron">
+    <h1 class="display-4">{{establishment.name}}</h1>
+    <p class="lead">{{establishment.description}}</p>
+    <hr class="my-4">
+    <p>Heures d'ouverture</p>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Lundi: </strong>{{establishment.timeTable.mondayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.mondayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.mondayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.mondayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Mardi: </strong>{{establishment.timeTable.tuesdayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.tuesdayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.tuesdayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.tuesdayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item">
+        <strong>Mercredi: </strong>{{establishment.timeTable.wednesdayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.wednesdayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.wednesdayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.wednesdayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Jeudi: </strong>{{establishment.timeTable.thursdayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.thursdayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.thursdayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.thursdayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Vendredi: </strong>{{establishment.timeTable.fridayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.fridayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.fridayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.fridayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Samedi: </strong>{{establishment.timeTable.saturdayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.saturdayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.saturdayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.saturdayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Dimanche: </strong>{{establishment.timeTable.sundayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.sundayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.sundayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.sundayPMEnd | date: 'HH:mm'}}</li>
+    </ul>
+    <hr class="my-4">
+    <p class="h5">{{establishment.address | titlecase}}</p>
+    <hr class="my-4">
+    <p>Pour faire une réservation, sélectionnez la date et l'heure souhaitées dans les champs ci-dessous</p>
+    <div class="row align-items-center">
+      <div class="col">
+        <form class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                     name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col ml-5">
+        <div class="row align-items-center">
+          <small class="col-2">Début</small>
+          <ngb-timepicker class="col-10" [(ngModel)]="timeStart" [seconds]="false"
+                          [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep"></ngb-timepicker>
+        </div>
+      </div>
+      <div class="col ml-3">
+        <div class="row align-items-center">
+          <small class="col-2">Fin</small>
+          <ngb-timepicker class="col-10" [(ngModel)]="timeEnd" [seconds]="false"
+                          [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep"></ngb-timepicker>
+        </div>
+      </div>
+      <div class="col">
+        <a class="btn btn-primary btn-lg" (click)="submit()" role="button">Reservation</a>
+      </div>
+
+    </div>
+  </div>
+</div>

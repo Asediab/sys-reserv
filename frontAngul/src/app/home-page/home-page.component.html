@@ -1,6 +1,34 @@
 <div>
-  <app-establish-card></app-establish-card>
-  <app-establish-card></app-establish-card>
-  <app-establish-card></app-establish-card>
+  <div *ngFor="let e of establishments | slice: (page-1) * 6 : (page-1) * 6 + 6">
+    <div>
+      <div class="card border-dark m-1 ">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <img [src]="'http://localhost:9091/apiEst/establishment/image?name='+e.picture" class="card-img"
+                 alt="...">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body">
+              <h5 class="card-title">{{e.name}}</h5>
+              <p class="card-text">{{e.description}}</p>
+              <hr>
+              <div class="row">
+                <p class="col-3"><strong>Type:</strong></p>
+                <p class="col-9">{{e.typeOfEstablishment}}</p>
+              </div>
+              <hr>
+              <div class="row">
+                <p class="col-3"><strong>Address:</strong></p>
+                <p class="col-9">{{e.address | titlecase}}</p>
+              </div>
+            </div>
+            <div class="card-footer align-items-end">
+              <button class="btn-dark align-items-end" style="height: 2rem; width: 7rem" (click)="info(e)">Info</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ngb-pagination [collectionSize]="establishments.length-1" [(page)]="page" [maxSize]="6" [boundaryLinks]="true"></ngb-pagination>
 </div>
-

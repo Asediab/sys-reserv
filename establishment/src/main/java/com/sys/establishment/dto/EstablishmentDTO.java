@@ -34,9 +34,9 @@ public class EstablishmentDTO implements Serializable {
 
     private List<CommentDTO> comments;
 
-    private LocalDateTime dateCreated;
+    private Date dateCreated;
 
-    private LocalDateTime lastModifiedDate;
+    private Date lastModifiedDate;
 
     public EstablishmentDTO() {
     }
@@ -89,19 +89,19 @@ public class EstablishmentDTO implements Serializable {
         this.clients_limit = clients_limit;
     }
 
-    public LocalDateTime getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(LocalDateTime dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public LocalDateTime getLastModifiedDate() {
+    public Date getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+    public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
