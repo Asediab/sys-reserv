@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../shared/interfaces';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
@@ -21,5 +21,9 @@ export class UserService {
 
   getUserByEstablishmentId(id: number): Observable<void> {
     return this.http.get<void>(environment.urlUserApi + '/establish/' + id);
+  }
+
+  currentUser(): Observable<any> {
+    return this.http.get<any>(environment.userInfoUri);
   }
 }

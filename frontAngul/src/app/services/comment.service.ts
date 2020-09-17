@@ -15,12 +15,11 @@ export class CommentService {
     return this.http.get<Comment>(environment.urlCommentApi + '/' + id);
   }
 
-  save(comment: Comment, file?: File): Observable<void> {
+  save(comment: Comment): Observable<void> {
     return this.http.post<void>(environment.urlCommentApi, comment);
   }
 
-  // tslint:disable-next-line:typedef
-  delete(commentId: number) {
+  delete(commentId: number): Observable<void> {
     return this.http.delete<void>(environment.urlCommentApi + '/' + commentId);
   }
 

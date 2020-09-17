@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Reservation} from '../shared/interfaces';
 import {ReservationService} from '../services/reservation.service';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-my-reservations',
@@ -14,7 +15,8 @@ export class MyReservationsComponent implements OnInit {
   page = 1;
 
 
-  constructor(private reservationService: ReservationService) {
+  constructor(private reservationService: ReservationService,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class MyReservationsComponent implements OnInit {
   }
 
   fetchReservations(): void {
-    this.reservationService.getByUser(1)
+    this.reservationService.getByUser(this.authService.user.id)
       .subscribe(reser => {
         this.reservations = reser;
         this.reservations.sort((a: Reservation, b: Reservation) => {

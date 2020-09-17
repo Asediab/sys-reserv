@@ -48,6 +48,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .authorizedGrantTypes("refresh_token", "password", "authorization_code")
                 .scopes("ui")
                 .autoApprove(true)
+                .accessTokenValiditySeconds(3600)
                 .redirectUris(redirectUri)
                 .and()
                 .withClient("microservice")

@@ -5,6 +5,7 @@ import com.sys.user.web.exeption.UserNotFoundException;
 import com.sys.user.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -31,7 +32,9 @@ public class UserController {
         return principal.getUserAuthentication();
     }
 
+    @CrossOrigin
     @PostMapping
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Void> createUser(@Valid @RequestBody UserDTO user) {
         UserDTO userSave = userService.createUser(user);
         if (userSave == null) {
@@ -41,7 +44,9 @@ public class UserController {
     }
 
 
+    @CrossOrigin
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public UserDTO getUserById(@PathVariable("id") Long id) {
         UserDTO user = userService.findById(id);
         if (user == null) {
@@ -50,7 +55,9 @@ public class UserController {
         return user;
     }
 
+    @CrossOrigin
     @GetMapping(value = "/establish/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<UserDTO> getUsersByEstablishmentId(@PathVariable("id") Long id) {
         List<UserDTO> users = userService.usersByEstablishmentId(id);
         if (users == null) {

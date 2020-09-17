@@ -6,6 +6,7 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {NgbDateStruct, NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import {FormGroup} from '@angular/forms';
 import {ReservationService} from '../services/reservation.service';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-info-establishment',
@@ -31,7 +32,8 @@ export class InfoEstablishmentComponent implements OnInit {
   constructor(private dataEstablishmentService: DataEstablishmentService,
               private reservationService: ReservationService,
               private establishmentService: EstablishmentService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private authService: AuthService) {
     this.establishment = dataEstablishmentService.establishment;
   }
 
@@ -56,8 +58,8 @@ export class InfoEstablishmentComponent implements OnInit {
       endOfReservation: dateEnd,
       establishmentId: this.establishment.id,
       establishmentName: this.establishment.name,
-      userFirstName: 'User',
-      userId: 1
+      userFirstName: this.authService.user.firstName,
+      userId: this.authService.user.id,
     };
     this.reservationService.saveReservation(this.reservation, this.establishment.clients_limit).subscribe(() => {
       this.timeStart = {hour: 0, minute: 0, second: 0};

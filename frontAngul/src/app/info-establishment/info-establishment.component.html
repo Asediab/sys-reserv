@@ -1,9 +1,11 @@
 <div class="container m-2">
   <div class="jumbotron">
     <h1 class="display-4">{{establishment.name}}</h1>
-    <p class="lead">{{establishment.description}}</p>
+    <div class="row align-items-center">
+      <p class="col h6">{{establishment.description}}</p>
+    </div>
     <hr class="my-4">
-    <p>Heures d'ouverture</p>
+    <p class="h5">Heures d'ouverture</p>
     <ul class="list-group list-group-flush">
       <li class="list-group-item"><strong>Lundi: </strong>{{establishment.timeTable.mondayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.mondayAMEnd | date: 'HH:mm'}}
@@ -76,7 +78,10 @@
       <div class="col">
         <a class="btn btn-primary btn-lg" (click)="submit()" role="button">Reservation</a>
       </div>
-
+    </div>
+    <div class="col">
+      <a class="btn btn-primary btn-lg" [routerLink]="['/info/' + establishment.id, 'comments']" role="button">Comments</a>
     </div>
   </div>
+  <router-outlet></router-outlet>
 </div>

@@ -4,9 +4,9 @@ export interface User {
   lastName: string;
   active?: boolean;
   establishmentId?: number;
-  password: string;
-  roles?: string[];
-  email: string;
+  password?: string;
+  roles?: string;
+  email?: string;
 }
 
 export interface UserLogin {
@@ -83,4 +83,22 @@ export interface TimeTable {
   sundayAMEnd: Date;
   sundayPMStart: Date;
   sundayPMEnd: Date;
+}
+
+export interface AuthResponse {
+  access_token: string;
+  expires_in: string;
+  refresh_token: string;
+  scope: string;
+  token_type: string;
+}
+
+export interface Principal {
+  principal: {
+    establishmentId: number;
+    firstName: string;
+    lastName: string;
+    id: number;
+    roles: string;
+  };
 }

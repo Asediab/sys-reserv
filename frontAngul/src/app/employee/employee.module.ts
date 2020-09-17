@@ -3,6 +3,8 @@ import {SharedModule} from '../shared/shared.module';
 import { EmployeeLayoutComponent } from './shared/employee-layout/employee-layout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {RouterModule} from '@angular/router';
+import {AuthGuard} from '../services/auth.guard';
+import {Role} from '../shared/role.enum';
 
 
 
@@ -14,7 +16,7 @@ import {RouterModule} from '@angular/router';
       {
         path: '', component: EmployeeLayoutComponent, children: [
           {path: '', redirectTo: '/login', pathMatch: 'full'},
-          {path: 'dashboard', component: DashboardComponent}
+          {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: {roles: [Role.Employee]}}
         ]
       }
     ])

@@ -1,0 +1,21 @@
+<div>
+  <form class="mb-5">
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Entrez votre message</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+    <button class="btn btn-dark" type="submit" (click)="submit()">Envoyer le message</button>
+  </form>
+  <div *ngFor="let comment of comments | slice: (page-1) * 10 : (page-1) * 10 + 10">
+    <div class="card border-dark bg-light mb-3">
+      <div class="card-header">
+        {{comment.author}}
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{comment.text}}</p>
+        <a *ngIf="auth.user.id === comment.userId" (click)="deleteComment(comment)" class="btn btn-danger">Supprimer</a>
+      </div>
+    </div>
+  </div>
+  <ngb-pagination [collectionSize]="comments.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true"></ngb-pagination>
+</div>

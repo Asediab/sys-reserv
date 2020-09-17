@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -36,10 +37,10 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Role roles;
 
     public User() {
     }
@@ -56,7 +57,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return Collections.singletonList(getRoles());
     }
 
     public void setPassword(String password) {
@@ -115,11 +116,11 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
+    public Role getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Role roles) {
         this.roles = roles;
     }
 

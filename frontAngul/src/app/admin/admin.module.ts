@@ -7,6 +7,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewEstablishmentComponent } from './new-establishment/new-establishment.component';
 import { ListEmployeesComponent } from './list-employees/list-employees.component';
 import { NewEmployeeComponent } from './new-employee/new-employee.component';
+import {MyReservationsComponent} from '../my-reservations/my-reservations.component';
+import {AuthGuard} from '../services/auth.guard';
+import {Role} from '../shared/role.enum';
 
 
 
@@ -18,10 +21,10 @@ import { NewEmployeeComponent } from './new-employee/new-employee.component';
       {
         path: '', component: AdminLayoutComponent, children: [
           {path: '', redirectTo: '/login', pathMatch: 'full'},
-          {path: ':id', component: NewEstablishmentComponent},
-          {path: 'employees/:id', component: ListEmployeesComponent},
-          {path: 'dashboard', component: DashboardComponent},
-          {path: 'addEmployee', component: NewEmployeeComponent}
+          {path: 'establishment/:id', component: NewEstablishmentComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
+          {path: 'employees/:id', component: ListEmployeesComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
+          {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]}},
+          {path: 'addEmployee', component: NewEmployeeComponent, canActivate: [AuthGuard], data: {roles: [Role.Admin]}}
         ]
       }
     ])
