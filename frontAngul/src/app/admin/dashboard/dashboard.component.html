@@ -1,1 +1,46 @@
-<p>dashboard works!</p>
+<div class="container">
+  <div *ngIf="!establishments; else table">
+    <h3 class="text-center m-5">Vous n'avez aucun lieu public pour le moment</h3>
+  </div>
+  <ng-template #table>
+    <table class="table m-1">
+      <thead class="thead-dark">
+      <tr>
+        <th style="width: 20rem" scope="col">Nome</th>
+        <th scope="col">Type</th>
+        <th scope="col">Address</th>
+        <th scope="col">Client limite</th>
+        <th scope="col">Comments</th>
+        <th scope="col">Options</th>
+        <th scope="col">
+          <button class="btn-light" (click)="redirect()">Créer un lieu</button>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let establishment of establishments | slice: (page-1) * 10 : (page-1) * 10 + 10">
+        <th scope="row">{{establishment.name}}</th>
+        <td>{{establishment.typeOfEstablishment}}</td>
+        <td>{{establishment.address | titlecase}}</td>
+        <td>{{establishment.clients_limit}}</td>
+        <td>{{establishment.comments.length}}</td>
+        <td>
+          <div class="row">
+            <div class="col m-2">
+              <button class="btn-dark" [routerLink]="['/service/employees/' + establishment.id]">Employees</button>
+            </div>
+            <div class="col m-2">
+              <button class="btn-danger" (click)="modify(establishment)">Modifier</button>
+            </div>
+            <div class="col m-2">
+              <button class="btn-primary" (click)="info(establishment)">Info</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+    <ngb-pagination [collectionSize]="establishments.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true" class="row center"></ngb-pagination>
+  </ng-template>
+</div>

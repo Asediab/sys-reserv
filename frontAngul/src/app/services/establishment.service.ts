@@ -29,8 +29,8 @@ export class EstablishmentService {
 
   save(establishment: Establishment, file?: File): Observable<void> {
     const formData = new FormData();
-    formData.append('establishment', establishment.toString());
-    file ? formData.append('file', file) : undefined;
+    formData.append('establishment', JSON.stringify(establishment));
+    formData.append('file', file);
     return this.http.post<void>(environment.urlEstablishmentApi, formData);
   }
 

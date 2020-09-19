@@ -15,7 +15,7 @@ import {Role} from '../shared/role.enum';
     RouterModule.forChild([
       {
         path: '', component: EmployeeLayoutComponent, children: [
-          {path: '', redirectTo: '/login', pathMatch: 'full'},
+          {path: '', redirectTo: '/employee/dashboard', pathMatch: 'full'},
           {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: {roles: [Role.Employee]}}
         ]
       }

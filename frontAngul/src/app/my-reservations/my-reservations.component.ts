@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Reservation} from '../shared/interfaces';
 import {ReservationService} from '../services/reservation.service';
 import {AuthService} from '../services/auth.service';
+import {AlertService} from '../shared/services/alert.service';
 
 @Component({
   selector: 'app-my-reservations',
@@ -16,7 +17,8 @@ export class MyReservationsComponent implements OnInit {
 
 
   constructor(private reservationService: ReservationService,
-              public authService: AuthService) {
+              public authService: AuthService,
+              private alertService: AlertService) {
   }
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class MyReservationsComponent implements OnInit {
     this.reservationService.delete(id)
       .subscribe(() => {
         this.reservations = this.reservations.filter(t => t.id !== id);
+        this.alertService.success('Reservation est supprimée');
       });
   }
 }

@@ -1,1 +1,17 @@
-<p>employee-layout works!</p>
+<app-alert></app-alert>
+<body class="text-center">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">{{auth.user.lastName | titlecase}}</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link " routerLinkActive="active" [routerLink]="['/employee']" >Dashboard</a>
+        <a *ngIf="auth.isAuthenticated()" class="nav-link"  (click)="logout()" >Log out</a>
+      </nav>
+    </div>
+  </header>
+</div>
+</body>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
