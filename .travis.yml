@@ -12,8 +12,6 @@ jdk:
 services:
   - docker
 
-before_install:
-  - chmod +x mvnw
 
 before_script:
   - docker-compose -f postgresd/docker-compose.yml up -d
@@ -21,7 +19,7 @@ before_script:
 jobs:
   include:
     - stage: test
-      script: ./mvnw test
+      script: mvn test
 #    - stage: sonar
 #      script: ./mvnw verify sonar:sonar
 
