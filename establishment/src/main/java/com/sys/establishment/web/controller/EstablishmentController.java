@@ -2,10 +2,8 @@ package com.sys.establishment.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sys.establishment.dto.EstablishmentDTO;
-import com.sys.establishment.model.Establishment;
 import com.sys.establishment.service.EstablishmentService;
 import com.sys.establishment.service.FileUploadService;
-import com.sys.establishment.service.impl.EstablishmentServiceImpl;
 import com.sys.establishment.web.exception.EstablishmentExistException;
 import com.sys.establishment.web.exception.NotFoundException;
 import org.slf4j.Logger;
@@ -18,9 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -54,7 +49,7 @@ public class EstablishmentController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
                                 MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> saveEstablishment(@RequestPart ("establishment") String establishmentJSON,
-                                                  @RequestPart("file") MultipartFile file){
+                                                  @RequestPart(value = "file") MultipartFile file){
         EstablishmentDTO jsonEstablishment;
         try {
             jsonEstablishment = establishmentService.jsonToEntity(establishmentJSON);

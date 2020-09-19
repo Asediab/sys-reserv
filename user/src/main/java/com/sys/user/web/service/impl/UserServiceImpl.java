@@ -43,8 +43,17 @@ public class UserServiceImpl implements UserService {
         }
         String password = encoder.encode(user.getPassword());
         user.setPassword(password);
-        user.setRoles(Collections.singleton(Role.USER));
-        LOGGER.info("User was created");
+        user.setActive(Boolean.TRUE);
+        if (user.getEstablishmentId() != null && user.getEstablishmentId() > 0) {
+            user.setRoles(Role.EMPLOYEE);
+            LOGGER.info("Employee was created");
+        } else if (user.getEstablishmentId() != null && user.getEstablishmentId() < 0) {
+            user.setRoles(Role.USER);
+            LOGGER.info("User was created");
+        } else {
+            user.setRoles(Role.ADMIN);
+            LOGGER.info("Admin was created");
+        }
         return toDto(repository.save(toEntity(user)));
     }
 
@@ -54,17 +63,6 @@ public class UserServiceImpl implements UserService {
         return toDto(user);
     }
 
-    @Override
-    public UserDTO createEmployee(UserDTO employee) {
-        if (repository.findByEmail(employee.getEmail()) != null) {
-            throw new IllegalArgumentException("User already exists: " + employee.getEmail());
-        }
-        String password = encoder.encode(employee.getPassword());
-        employee.setPassword(password);
-        employee.setRoles(Collections.singleton(Role.EMPLOYEE));
-        LOGGER.info("Employee was created");
-        return toDto(repository.save(toEntity(employee)));
-    }
 
     @Override
     public void deactivatedEmployById(Long employeeId) {

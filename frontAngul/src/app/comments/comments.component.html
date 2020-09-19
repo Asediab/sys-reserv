@@ -1,11 +1,12 @@
 <div>
-  <form class="mb-5">
+  <form [formGroup]="commentForm" class="mb-5">
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Entrez votre message</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  formControlName="text"></textarea>
     </div>
-    <button class="btn btn-dark" type="submit" (click)="submit()">Envoyer le message</button>
+    <button class="btn btn-dark" type="submit" [disabled]="commentForm.invalid" (click)="submit()">Envoyer le message</button>
   </form>
+  <app-modal-modif-comment *ngIf="modal" (closeMod)="modal = false" [comment]="commentModify"></app-modal-modif-comment>
   <div *ngFor="let comment of comments | slice: (page-1) * 10 : (page-1) * 10 + 10">
     <div class="card border-dark bg-light mb-3">
       <div class="card-header">
@@ -13,7 +14,10 @@
       </div>
       <div class="card-body">
         <p class="card-text">{{comment.text}}</p>
-        <a *ngIf="auth.user.id === comment.userId" (click)="deleteComment(comment)" class="btn btn-danger">Supprimer</a>
+        <div class="row">
+          <a *ngIf="auth.user.id === comment.userId" (click)="deleteComment(comment)" class="btn btn-danger mr-5">Supprimer</a>
+          <a *ngIf="auth.user.id === comment.userId" (click)="modify(comment)" class="btn btn-primary">Modifier</a>
+        </div>
       </div>
     </div>
   </div>

@@ -1,1 +1,52 @@
-<p>new-employee works!</p>
+<div>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label for="exampleInputNom">Nom</label>
+      <input type="email" class="form-control" id="exampleInputNom" aria-describedby="nomHelp"
+             formControlName="firstName" [ngClass]="{'is-invalid': form.get('firstName').touched && form.get('firstName').invalid}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPrenom">Prénom</label>
+      <input type="prenomHelp" class="form-control" aria-describedby="prenomHelp" id="exampleInputPrenom"
+             formControlName="lastName" [ngClass]="{'is-invalid': form.get('lastName').touched && form.get('lastName').invalid}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+             formControlName="email"
+             [ngClass]="{'is-invalid': form.get('email').touched && form.get('email').invalid}">
+      <div
+        *ngIf="form.get('email').touched && form.get('email').invalid"
+        class="invalid-feedback"
+      >
+        <small *ngIf="form.get('email').errors.required" class="invalid-feedback">
+          Entrez le champ email
+        </small>
+        <small *ngIf="form.get('email').errors.email" class="invalid-feedback">
+          Le champ email doit être email
+        </small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password"
+             [ngClass]="{'is-invalid': form.get('password').touched && form.get('password').invalid}">
+      <div
+        class="invalid-feedback"
+        *ngIf="form.get('password').touched && form.get('password').invalid"
+      >
+        <small *ngIf="form.get('password').errors.required" class="invalid-feedback">
+          Entrer le mot de passe
+        </small>
+        <small *ngIf="form.get('password').errors.minlength" class="invalid-feedback">
+          Le mot de passe doit être au moins
+          {{form.get('password').errors.minlength.requiredLength}}
+          caractères. Maintenant il a
+          {{form.get('password').errors.minlength.actualLength}}
+          caractères.
+        </small>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Inscrire un nouvel employé</button>
+  </form>
+</div>

@@ -2,7 +2,6 @@ package com.sys.establishment.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.querydsl.core.BooleanBuilder;
 import com.sys.establishment.dao.EstablishmentDAO;
 import com.sys.establishment.dto.EstablishmentDTO;
@@ -16,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,17 +49,16 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public List<EstablishmentDTO> searchBy(String name, String typeId) {
+    public List<EstablishmentDTO> searchBy(String name, String type) {
         List<EstablishmentDTO> dtos = new ArrayList<>();
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        Long type = Long.valueOf(typeId);
         final QEstablishment qEstablishment = QEstablishment.establishment;
         if (!name.isBlank()) {
             booleanBuilder.and(qEstablishment.name.containsIgnoreCase(name));
         }
-        if (!typeId.isBlank()) {
-            booleanBuilder.and(qEstablishment.typeOfEstablishment.id.eq(type));
+        if (!type.isBlank()) {
+            booleanBuilder.and(qEstablishment.typeOfEstablishment.eq(TypeOfEstablishment.valueOf(type)));
         }
         LOGGER.info("Establishment searched");
         List<Establishment> entityList = (List<Establishment>) establishmentDAO.findAll(booleanBuilder);
@@ -101,9 +98,11 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     private Establishment toEntity(EstablishmentDTO establishmentDTO) {
         Establishment establishment = modelMapper.map(establishmentDTO, Establishment.class);
-        List<Comment> comments = establishment.getComments();
-        for (Comment comment:comments){
-            comment.setEstablishment(establishment);
+        if (establishmentDTO.getComments() != null) {
+            List<Comment> comments = establishment.getComments();
+            for (Comment comment:comments){
+                comment.setEstablishment(establishment);
+            }
         }
         return establishment;
     }

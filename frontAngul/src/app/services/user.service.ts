@@ -15,12 +15,12 @@ export class UserService {
     return this.http.post<void>(environment.urlUserApi, user);
   }
 
-  getUserById(id: number): Observable<void> {
-    return this.http.get<void>(environment.urlUserApi + '/' + id);
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(environment.urlUserApi + '/' + id);
   }
 
-  getUserByEstablishmentId(id: number): Observable<void> {
-    return this.http.get<void>(environment.urlUserApi + '/establish/' + id);
+  getUsersByEstablishmentId(id: number): Observable<User[]> {
+    return this.http.get<User[]>(environment.urlUserApi + '/establish/' + id);
   }
 
   currentUser(): Observable<any> {

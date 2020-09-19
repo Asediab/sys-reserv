@@ -1,0 +1,15 @@
+.alertWrap {
+  position: fixed;
+  height: 50px;
+  width: 200px;
+  top: 70px;
+  right: 60px;
+  max-width: 300px;
+}
+
+.myAlert {
+  padding: 0.7rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  color: #333;
+}

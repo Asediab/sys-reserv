@@ -1,0 +1,65 @@
+<div class="container m-2">
+  <div class="jumbotron">
+    <h1 class="display-4">{{establishment.name}}</h1>
+    <div class="row align-items-center">
+      <p class="col h6">{{establishment.description}}</p>
+    </div>
+    <hr class="my-4">
+    <p class="h5">Heures d'ouverture</p>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Lundi: </strong>{{establishment.timeTable.mondayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.mondayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.mondayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.mondayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Mardi: </strong>{{establishment.timeTable.tuesdayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.tuesdayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.tuesdayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.tuesdayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item">
+        <strong>Mercredi: </strong>{{establishment.timeTable.wednesdayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.wednesdayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.wednesdayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.wednesdayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Jeudi: </strong>{{establishment.timeTable.thursdayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.thursdayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.thursdayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.thursdayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Vendredi: </strong>{{establishment.timeTable.fridayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.fridayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.fridayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.fridayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Samedi: </strong>{{establishment.timeTable.saturdayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.saturdayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.saturdayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.saturdayPMEnd | date: 'HH:mm'}}</li>
+
+      <li class="list-group-item"><strong>Dimanche: </strong>{{establishment.timeTable.sundayAMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.sundayAMEnd | date: 'HH:mm'}}
+        et {{establishment.timeTable.sundayPMStart | date: 'HH:mm'}}
+        - {{establishment.timeTable.sundayPMEnd | date: 'HH:mm'}}</li>
+    </ul>
+    <hr class="my-4">
+    <p class="h5">{{establishment.address | titlecase}}</p>
+    <hr class="my-4">
+  </div>
+  <div>
+    <div *ngFor="let comment of establishment.comments | slice: (page-1) * 10 : (page-1) * 10 + 10">
+      <div class="card border-dark bg-light mb-3">
+        <div class="card-header">
+          {{comment.author}}
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{comment.text}}</p>
+          <a (click)="deleteComment(comment)" class="btn btn-danger">Supprimer</a>
+        </div>
+      </div>
+    </div>
+    <ngb-pagination [collectionSize]="establishment.comments.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true"></ngb-pagination>
+  </div>
+</div>
+

@@ -25,7 +25,7 @@ public class UserDTO implements Serializable {
     @NotEmpty
     private String password;
 
-    private Set<Role> roles;
+    private Role roles;
 
     @NotEmpty
     private String email;
@@ -51,11 +51,11 @@ public class UserDTO implements Serializable {
     public UserDTO() {
     }
 
-    public Set<Role> getRoles() {
+    public Role getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Role roles) {
         this.roles = roles;
     }
 

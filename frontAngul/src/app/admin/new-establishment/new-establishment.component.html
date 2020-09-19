@@ -1,1 +1,121 @@
-<p>new-establishment works!</p>
+<div>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="form-group">
+      <label for="exampleInputNom">Nom de lieux</label>
+      <input type="text" class="form-control" id="exampleInputNom" aria-describedby="nomHelp"
+             formControlName="name" [ngClass]="{'is-invalid': form.get('name').touched && form.get('name').invalid}">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Description</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                formControlName="description" [ngClass]="{'is-invalid': form.get('description').touched && form.get('description').invalid}"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPrenom">Address</label>
+      <input type="text" class="form-control" aria-describedby="prenomHelp" id="exampleInputPrenom"
+             formControlName="address" [ngClass]="{'is-invalid': form.get('address').touched && form.get('address').invalid}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Limit de visiteurs par heures</label>
+      <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+             formControlName="clients_limit"
+             [ngClass]="{'is-invalid': form.get('clients_limit').touched && form.get('clients_limit').invalid}">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlSelect2">Type de lieux</label>
+      <select class="form-control" id="exampleFormControlSelect2" formControlName="typeOfEstablishment"
+              [ngClass]="{'is-invalid': form.get('typeOfEstablishment').touched && form.get('typeOfEstablishment').invalid}">
+        <option value="POOL">Piscine</option>
+        <option value="SPORTS_COMPLEX">Complex sportif</option>
+        <option value="MEDIA_LIBRARY">Médiathèque</option>
+      </select>
+    </div>
+    <div class="form-group" >
+      <h4>Image</h4>
+      <input type="file"  formControlName="file" (change)="selectFile($event)">
+    </div>
+    <hr>
+    <div>
+      <h3 class="text-center">Horaire</h3>
+      <div class="row align-items-center">
+        <h5 class="col-2">Lindi</h5>
+        <ngb-timepicker class=" m-2" [(ngModel)]="lindi1" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="lindi2" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2 ml-5" [(ngModel)]="lindi3" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="lindi4" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+      <div class="row align-items-center">
+        <h5 class="col-2">Mardi</h5>
+        <ngb-timepicker class=" m-2" [(ngModel)]="mardi1" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="mardi2" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2 ml-5" [(ngModel)]="mardi3" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="mardi4" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+      <div class="row align-items-center">
+        <h5 class="col-2">Mercredi</h5>
+        <ngb-timepicker class=" m-2" [(ngModel)]="mercredi1" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="mercredi2" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2 ml-5" [(ngModel)]="mercredi3" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="mercredi4" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+      <div class="row align-items-center">
+        <h5 class="col-2">Jeudi</h5>
+        <ngb-timepicker class=" m-2" [(ngModel)]="jeudi1" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="jeudi2" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2 ml-5" [(ngModel)]="jeudi3" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="jeudi4" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+      <div class="row align-items-center">
+        <h5 class="col-2">Vendredi</h5>
+        <ngb-timepicker class=" m-2" [(ngModel)]="vendredi1" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="vendredi2" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2 ml-5" [(ngModel)]="vendredi3" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="vendredi4" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+      <div class="row align-items-center">
+        <h5 class="col-2">Samedi</h5>
+        <ngb-timepicker class=" m-2" [(ngModel)]="samedi1" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="samedi2" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2 ml-5" [(ngModel)]="samedi3" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="samedi4" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+      <div class="row align-items-center">
+        <h5 class="col-2">Dimanche</h5>
+        <ngb-timepicker class=" m-2" [(ngModel)]="dimanche1" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="dimanche2" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2 ml-5" [(ngModel)]="dimanche3" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+        <ngb-timepicker class=" m-2" [(ngModel)]="dimanche4" [seconds]="false"
+                        [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid" style="width: 10rem; height: 3rem">Créer</button>
+  </form>
+</div>

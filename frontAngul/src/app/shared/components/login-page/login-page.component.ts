@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserLogin} from '../../interfaces';
 import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
+import {AlertService} from '../../services/alert.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,7 +15,8 @@ export class LoginPageComponent implements OnInit {
   form: FormGroup;
 
   constructor(private auth: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -42,6 +44,7 @@ export class LoginPageComponent implements OnInit {
       this.auth.setUser();
       this.form.reset();
       this.router.navigate(['/']);
+      this.alertService.success('Bienvenue!');
     });
   }
 

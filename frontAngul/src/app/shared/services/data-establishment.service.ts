@@ -9,4 +9,6 @@ export class DataEstablishmentService {
   constructor() { }
 
   establishment: Establishment;
+
+  establishmentForModify: Establishment;
 }

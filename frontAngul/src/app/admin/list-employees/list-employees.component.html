@@ -1,1 +1,29 @@
-<p>list-employees works!</p>
+<div class="container">
+  <div *ngIf="!employees; else table">
+    <h3 class="text-center m-5">Aucun employé inscrit</h3>
+    <button class="btn-dark" (click)="newEmployee()">Enregistrer un employee</button>
+  </div>
+  <ng-template #table>
+    <table class="table m-1">
+      <thead class="thead-dark">
+      <tr>
+        <th style="width: 20rem" scope="col">Nom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Mail</th>
+        <th scope="col" style="width: 15rem">
+          <button class="btn-light" (click)="newEmployee()">Enregistrer un employee</button>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let employee of employees | slice: (page-1) * 10 : (page-1) * 10 + 10">
+        <th scope="row">{{employee.firstName}}</th>
+        <td>{{employee.lastName}}</td>
+        <td>{{employee.email | titlecase}}</td>
+      </tr>
+
+      </tbody>
+    </table>
+    <ngb-pagination [collectionSize]="employees.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true" class="row center"></ngb-pagination>
+  </ng-template>
+</div>
