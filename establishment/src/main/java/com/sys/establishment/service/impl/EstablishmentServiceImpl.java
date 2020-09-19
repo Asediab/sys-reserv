@@ -8,6 +8,7 @@ import com.sys.establishment.dto.EstablishmentDTO;
 import com.sys.establishment.model.Comment;
 import com.sys.establishment.model.Establishment;
 import com.sys.establishment.model.QEstablishment;
+import com.sys.establishment.model.TypeOfEstablishment;
 import com.sys.establishment.service.EstablishmentService;
 import com.sys.establishment.web.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
