@@ -48,17 +48,16 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public List<EstablishmentDTO> searchBy(String name, String typeId) {
+    public List<EstablishmentDTO> searchBy(String name, String type) {
         List<EstablishmentDTO> dtos = new ArrayList<>();
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        Long type = Long.valueOf(typeId);
         final QEstablishment qEstablishment = QEstablishment.establishment;
         if (!name.isBlank()) {
             booleanBuilder.and(qEstablishment.name.containsIgnoreCase(name));
         }
-        if (!typeId.isBlank()) {
-            booleanBuilder.and(qEstablishment.typeOfEstablishment.id.eq(type));
+        if (!type.isBlank()) {
+            booleanBuilder.and(qEstablishment.typeOfEstablishment.eq(TypeOfEstablishment.valueOf(type)));
         }
         LOGGER.info("Establishment searched");
         List<Establishment> entityList = (List<Establishment>) establishmentDAO.findAll(booleanBuilder);
