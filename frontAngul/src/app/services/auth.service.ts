@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {UserService} from './user.service';
+import {AlertService} from '../shared/services/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ import {UserService} from './user.service';
 export class AuthService {
 
   constructor(private http: HttpClient,
-              private userService: UserService) {
+              private userService: UserService,
+              private alertService: AlertService) {
   }
 
   get token(): string {
@@ -40,6 +42,7 @@ export class AuthService {
   logout(): void {
     this.setToken(null);
     this.setUser(null);
+    this.alertService.success('À bie tôt!!');
   }
 
   isAuthenticated(): boolean {

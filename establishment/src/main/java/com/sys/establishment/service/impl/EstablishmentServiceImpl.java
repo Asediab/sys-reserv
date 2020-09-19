@@ -2,21 +2,18 @@ package com.sys.establishment.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.querydsl.core.BooleanBuilder;
 import com.sys.establishment.dao.EstablishmentDAO;
 import com.sys.establishment.dto.EstablishmentDTO;
 import com.sys.establishment.model.Comment;
 import com.sys.establishment.model.Establishment;
 import com.sys.establishment.model.QEstablishment;
-import com.sys.establishment.model.TypeOfEstablishment;
 import com.sys.establishment.service.EstablishmentService;
 import com.sys.establishment.web.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,9 +98,11 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     private Establishment toEntity(EstablishmentDTO establishmentDTO) {
         Establishment establishment = modelMapper.map(establishmentDTO, Establishment.class);
-        List<Comment> comments = establishment.getComments();
-        for (Comment comment:comments){
-            comment.setEstablishment(establishment);
+        if (establishmentDTO.getComments() != null) {
+            List<Comment> comments = establishment.getComments();
+            for (Comment comment:comments){
+                comment.setEstablishment(establishment);
+            }
         }
         return establishment;
     }

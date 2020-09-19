@@ -7,6 +7,7 @@ import {NgbDateStruct, NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import {FormGroup} from '@angular/forms';
 import {ReservationService} from '../services/reservation.service';
 import {AuthService} from '../services/auth.service';
+import {AlertService} from '../shared/services/alert.service';
 
 @Component({
   selector: 'app-info-establishment',
@@ -33,7 +34,8 @@ export class InfoEstablishmentComponent implements OnInit {
               private reservationService: ReservationService,
               private establishmentService: EstablishmentService,
               private route: ActivatedRoute,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private alertService: AlertService) {
     this.establishment = dataEstablishmentService.establishment;
   }
 
@@ -64,6 +66,7 @@ export class InfoEstablishmentComponent implements OnInit {
     this.reservationService.saveReservation(this.reservation, this.establishment.clients_limit).subscribe(() => {
       this.timeStart = {hour: 0, minute: 0, second: 0};
       this.timeEnd = {hour: 0, minute: 0, second: 0};
+      this.alertService.success('Réservation créée');
     });
   }
 }

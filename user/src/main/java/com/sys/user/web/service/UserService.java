@@ -9,8 +9,6 @@ public interface UserService {
 
     UserDTO createUser(UserDTO user);
 
-    UserDTO createEmployee(UserDTO user);
-
     User findByEmail(String email);
 
     UserDTO findById(Long id);

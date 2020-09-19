@@ -54,7 +54,7 @@ export interface Establishment {
 
 export interface TimeTable {
   id?: number;
-  establishmentId: number;
+  establishmentId?: number;
   mondayAMStart: Date;
   mondayAMEnd: Date;
   mondayPMStart: Date;

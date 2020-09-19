@@ -1,8 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Comment} from '../shared/interfaces';
+import {Comment, User} from '../shared/interfaces';
 import {DataEstablishmentService} from '../shared/services/data-establishment.service';
 import {CommentService} from '../services/comment.service';
 import {AuthService} from '../services/auth.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AlertService} from '../shared/services/alert.service';
 
 @Component({
   selector: 'app-comments',
@@ -11,24 +13,27 @@ import {AuthService} from '../services/auth.service';
 })
 export class CommentsComponent implements OnInit {
 
+  commentForm: FormGroup;
+
+  modal = false;
+
   comments: Comment[];
 
-  comment: Comment;
+  commentModify: Comment;
 
   page = 1;
 
 
   constructor(private dataEstablishmentService: DataEstablishmentService,
               private commentService: CommentService,
-              public auth: AuthService) {
+              public auth: AuthService,
+              private alertService: AlertService) {
     this.comments = this.dataEstablishmentService.establishment.comments;
   }
 
   ngOnInit(): void {
-  }
-
-  saveComment(comment: Comment): void {
-    this.commentService.save(comment).subscribe(v => {
+    this.commentForm = new FormGroup({
+      text: new FormControl('', Validators.required),
     });
   }
 
@@ -43,6 +48,23 @@ export class CommentsComponent implements OnInit {
   }
 
   submit(): void {
-    return null;
+    if (this.commentForm.valid) {
+      const comment: Comment = this.commentForm.value;
+      comment.userId = this.auth.user.id;
+      comment.author = this.auth.user.firstName;
+      comment.establishmentId = this.dataEstablishmentService.establishment.id;
+      console.log(comment);
+      this.commentService.save(comment)
+        .subscribe(v => {
+          this.commentForm.reset();
+          this.dataEstablishmentService.establishment.comments.push(comment);
+          this.alertService.success('Commentaire est crée');
+        });
+    }
+  }
+
+  modify(comment: Comment): void {
+    this.commentModify = comment;
+    this.modal = true;
   }
 }
