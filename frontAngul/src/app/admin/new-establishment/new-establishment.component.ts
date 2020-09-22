@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EstablishmentService} from '../../services/establishment.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Establishment, TimeTable} from '../../shared/interfaces';
@@ -13,7 +13,7 @@ import {AlertService} from '../../shared/services/alert.service';
   templateUrl: './new-establishment.component.html',
   styleUrls: ['./new-establishment.component.css']
 })
-export class NewEstablishmentComponent implements OnInit {
+export class NewEstablishmentComponent implements OnInit, OnDestroy {
 
   file: File;
 
@@ -139,16 +139,21 @@ export class NewEstablishmentComponent implements OnInit {
 
   submit(): void {
     if (this.form.valid) {
-      const establishment: Establishment = {
+      this.establishmentModify = {
+        id: this.establishmentModify ? this.establishmentModify.id : null,
         address: this.form.value.address, clients_limit: this.form.value.clients_limit, description: this.form.value.description,
         name: this.form.value.name, timeTable: this.getTimeTable(), typeOfEstablishment: this.form.value.typeOfEstablishment
       };
-      this.establishmentService.save(establishment, this.file).subscribe(value => {
+      console.log(this.establishmentModify);
+      this.establishmentService.save(this.establishmentModify, this.file).subscribe(value => {
         this.form.reset();
         this.router.navigate(['service', 'dashboard']);
         this.alertService.success('Establishment créée');
       });
     }
+  }
 
+  ngOnDestroy(): void {
+    this.dataEstablishmentService.establishmentForModify = null;
   }
 }

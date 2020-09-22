@@ -1,7 +1,7 @@
 <div class="container">
   <div *ngIf="!employees; else table">
     <h3 class="text-center m-5">Aucun employé inscrit</h3>
-    <button class="btn-dark" (click)="newEmployee()">Enregistrer un employee</button>
+    <button class="btn-primary" (click)="newEmployee()">Enregistrer un employé</button>
   </div>
   <ng-template #table>
     <table class="table m-1">
@@ -11,7 +11,7 @@
         <th scope="col">Prénom</th>
         <th scope="col">Mail</th>
         <th scope="col" style="width: 15rem">
-          <button class="btn-light" (click)="newEmployee()">Enregistrer un employee</button>
+          <button class="btn-primary" (click)="newEmployee()">Enregistrer un employé</button>
         </th>
       </tr>
       </thead>
@@ -20,6 +20,25 @@
         <th scope="row">{{employee.firstName}}</th>
         <td>{{employee.lastName}}</td>
         <td>{{employee.email | titlecase}}</td>
+        <td>
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Supprimer?</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="text-center h3">Voulez-vous supprimer cet employé?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Retour</button>
+              <button type="button" class="btn btn-danger" (click)="delete(employee)">Supprimer</button>
+            </div>
+          </ng-template>
+
+          <button  class="btn btn-danger" (click)="open(content)">Supprimer</button>
+        </td>
       </tr>
 
       </tbody>

@@ -14,7 +14,7 @@ public interface ReservationDAO extends JpaRepository<Reservation, Long> {
 
     Reservation findByValidateNumber(String validationNumber);
 
-    Long countReservationsByStartOfReservationIsLessThanEqualAndEndOfReservationEquals(Date startOfReservation, Date endOfReservation);
+    Long countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEquals(Long establishmentId, Date startOfReservation, Date endOfReservation);
 
     boolean existsByValidateNumber(String validationNumber);
 

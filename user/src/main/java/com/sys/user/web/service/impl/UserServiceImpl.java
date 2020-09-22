@@ -5,7 +5,6 @@ import com.sys.user.dto.UserDTO;
 import com.sys.user.model.Role;
 import com.sys.user.model.User;
 import com.sys.user.web.exeption.NotFoundException;
-import com.sys.user.web.exeption.UserNotFoundException;
 import com.sys.user.web.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -63,28 +61,14 @@ public class UserServiceImpl implements UserService {
         return toDto(user);
     }
 
-
     @Override
-    public void deactivatedEmployById(Long employeeId) {
-        if (repository.existsById(employeeId)) {
-            User employee = repository.getOne(employeeId);
-            employee.setActive(Boolean.FALSE);
-            repository.save(employee);
-            LOGGER.info("Employee was deactivated");
+    public boolean deleteUser(Long id) {
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with this Id not found"));
+        if (user != null) {
+            repository.deleteById(id);
+            return true;
         } else {
-            throw new UserNotFoundException("Employee with this Id: " + employeeId + " not exists");
-        }
-    }
-
-    @Override
-    public void activateEmployeeById(Long employeeId) {
-        if (repository.existsById(employeeId)) {
-            User employee = repository.getOne(employeeId);
-            employee.setActive(Boolean.TRUE);
-            repository.save(employee);
-            LOGGER.info("Employee was activated");
-        } else {
-            throw new UserNotFoundException("Employee with this Id: " + employeeId + " not exists");
+            return false;
         }
     }
 

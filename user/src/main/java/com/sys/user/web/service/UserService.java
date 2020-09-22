@@ -13,9 +13,7 @@ public interface UserService {
 
     UserDTO findById(Long id);
 
-    void deactivatedEmployById(Long employeeId);
-
-    void activateEmployeeById(Long employeeId);
+    boolean deleteUser(Long id);
 
     List<UserDTO> usersByEstablishmentId(Long establishmentId);
 

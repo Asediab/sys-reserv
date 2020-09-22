@@ -1,8 +1,6 @@
 package com.sys.reservation.web.controller;
 
-import com.sys.reservation.dao.ReservationDAO;
 import com.sys.reservation.dto.ReservationDTO;
-import com.sys.reservation.model.Reservation;
 import com.sys.reservation.service.ReservationService;
 import com.sys.reservation.web.exception.NotFoundException;
 import com.sys.reservation.web.exception.ReservationExistException;
@@ -12,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -48,6 +44,12 @@ public class ReservationController {
             ReservationDTO reservation = service.createReservation(reservationDTO, limit);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
+    }
+
+    @PostMapping("nearestAvailable")
+    public List<ReservationDTO> getNearestAvailableRes(@RequestBody ReservationDTO reservationDTO,
+                                                       @RequestParam("limit") int limit) {
+        return service.getListReservationsDispon(reservationDTO, limit);
     }
 
     @DeleteMapping("{id}")

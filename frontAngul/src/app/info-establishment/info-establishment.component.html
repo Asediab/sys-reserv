@@ -1,52 +1,53 @@
 <div class="container m-2">
   <div class="jumbotron">
-    <h1 class="display-4">{{establishment.name}}</h1>
+    <h1 class="display-4 text-center">{{establishment.name}}</h1>
     <div class="row align-items-center">
-      <p class="col h6">{{establishment.description}}</p>
+      <p class="col h6 text-center">{{establishment.description}}</p>
     </div>
     <hr class="my-4">
-    <p class="h5">Heures d'ouverture</p>
+    <p class="h5 text-center mb-3">Heures d'ouverture</p>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item"><strong>Lundi: </strong>{{establishment.timeTable.mondayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Lundi: </strong>{{establishment.timeTable.mondayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.mondayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.mondayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.mondayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Mardi: </strong>{{establishment.timeTable.tuesdayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Mardi: </strong>{{establishment.timeTable.tuesdayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.tuesdayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.tuesdayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.tuesdayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item">
+      <li class="list-group-item text-center">
         <strong>Mercredi: </strong>{{establishment.timeTable.wednesdayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.wednesdayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.wednesdayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.wednesdayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Jeudi: </strong>{{establishment.timeTable.thursdayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Jeudi: </strong>{{establishment.timeTable.thursdayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.thursdayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.thursdayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.thursdayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Vendredi: </strong>{{establishment.timeTable.fridayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Vendredi: </strong>{{establishment.timeTable.fridayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.fridayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.fridayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.fridayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Samedi: </strong>{{establishment.timeTable.saturdayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Samedi: </strong>{{establishment.timeTable.saturdayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.saturdayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.saturdayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.saturdayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Dimanche: </strong>{{establishment.timeTable.sundayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Dimanche: </strong>{{establishment.timeTable.sundayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.sundayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.sundayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.sundayPMEnd | date: 'HH:mm'}}</li>
     </ul>
     <hr class="my-4">
-    <p class="h5">{{establishment.address | titlecase}}</p>
+    <p class="h5 text-center">{{establishment.address | titlecase}}</p>
     <hr class="my-4">
-    <p>Pour faire une réservation, sélectionnez la date et l'heure souhaitées dans les champs ci-dessous</p>
+    <h3 class="text-center">Réservez votre session</h3>
+    <p class="text-center">Pour faire une réservation, sélectionnez la date et l'heure souhaitées dans les champs ci-dessous</p>
     <div class="row align-items-center">
       <div class="col">
         <form class="form-inline">
@@ -79,8 +80,15 @@
         <a class="btn btn-primary btn-lg" (click)="submit()" role="button">Reservation</a>
       </div>
     </div>
-    <div class="col">
-      <a class="btn btn-primary btn-lg" [routerLink]="['/info/' + establishment.id, 'comments']" role="button">Comments</a>
+    <div *ngIf="support">
+      <h4 class="text-center">Désolé, mais l'heure que vous avez sélectionnée n'est pas disponible, vous pouvez sélectionner
+        dans la liste l'heure disponible la plus proche</h4>
+      <div *ngFor="let reservation of reservationsNearestDispon" class="row">
+        <div class="col text-center m-3">{{reservation.startOfReservation | date: 'MMM d,HH:mm'}}</div>
+      </div>
+    </div>
+    <div class="col text-center mt-5">
+      <a class="btn btn-primary btn-lg" [routerLink]="['/info/' + establishment.id, 'comments']" role="button">Сommentaires</a>
     </div>
   </div>
   <router-outlet></router-outlet>

@@ -3,7 +3,7 @@ services:
   sysreserv.db:
     image: postgres:12.3
     ports:
-      - "127.0.0.1:5435:5435"
+      - "127.0.0.1:5432:5432"
     volumes:
        - "./init/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
     environment:

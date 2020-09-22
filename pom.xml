@@ -51,5 +51,7 @@
     <module>eureka</module>
     <module>zuul</module>
     <module>establishment</module>
+    <module>reservation</module>
+    <module>user</module>
   </modules>
 </project>

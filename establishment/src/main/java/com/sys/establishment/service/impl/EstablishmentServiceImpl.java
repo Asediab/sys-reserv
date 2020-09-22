@@ -2,12 +2,10 @@ package com.sys.establishment.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.querydsl.core.BooleanBuilder;
 import com.sys.establishment.dao.EstablishmentDAO;
 import com.sys.establishment.dto.EstablishmentDTO;
 import com.sys.establishment.model.Comment;
 import com.sys.establishment.model.Establishment;
-import com.sys.establishment.model.QEstablishment;
 import com.sys.establishment.model.TypeOfEstablishment;
 import com.sys.establishment.service.EstablishmentService;
 import com.sys.establishment.web.exception.NotFoundException;
@@ -50,22 +48,21 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Override
     public List<EstablishmentDTO> searchBy(String name, String type) {
-        List<EstablishmentDTO> dtos = new ArrayList<>();
+        List<Establishment> dtos = new ArrayList<>();
 
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        final QEstablishment qEstablishment = QEstablishment.establishment;
-        if (!name.isBlank()) {
-            booleanBuilder.and(qEstablishment.name.containsIgnoreCase(name));
+        if (!name.isBlank() && !type.isBlank()) {
+            dtos = establishmentDAO.findAllByNameContainingAndTypeOfEstablishmentOrderByNameDesc(name, TypeOfEstablishment.valueOf(type));
+        } else if (name.isBlank() && !type.isBlank()) {
+            dtos = establishmentDAO.findAllByTypeOfEstablishmentOrderByNameDesc(TypeOfEstablishment.valueOf(type));
+        } else {
+            dtos = establishmentDAO.findAllByNameContainingOrderByNameDesc(name);
         }
-        if (!type.isBlank()) {
-            booleanBuilder.and(qEstablishment.typeOfEstablishment.eq(TypeOfEstablishment.valueOf(type)));
+        List<EstablishmentDTO> entityList = new ArrayList<>();
+        for (Establishment e : dtos) {
+            entityList.add(toDto(e));
         }
         LOGGER.info("Establishment searched");
-        List<Establishment> entityList = (List<Establishment>) establishmentDAO.findAll(booleanBuilder);
-        for (Establishment e : entityList) {
-            dtos.add(toDto(e));
-        }
-        return dtos;
+        return entityList;
     }
 
     @Override

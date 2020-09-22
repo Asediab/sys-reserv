@@ -1,5 +1,5 @@
 <div>
-  <div class="card">
+  <div class="card border-dark m-2 text-center">
     <div class="card-header">
       Modifier le commentaire
     </div>
@@ -11,7 +11,7 @@
       </form>
     </div>
     <div class="card-footer">
-      <button type="button" class="btn btn-secondary" (click)="closeMod.emit(null)" data-dismiss="modal">Fermer</button>
+      <button type="button" class="btn btn-secondary mr-5" (click)="closeMod.emit(null)" data-dismiss="modal">Fermer</button>
       <button type="submit" class="btn btn-primary" [disabled]="form.invalid" (click)="modifyComment()">Modifier
       </button>
     </div>

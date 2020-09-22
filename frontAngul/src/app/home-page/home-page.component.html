@@ -1,4 +1,29 @@
 <div>
+  <div class="card m-3">
+    <div class="card-body">
+      <div class="row">
+        <form [formGroup]="form" (ngSubmit)="submit()" class="col-10">
+          <div class="row align-items-center">
+            <div class="col">
+              <input type="text" class="form-control" aria-describedby="nomHelp" placeholder="Nom d'un lieu"
+                     formControlName="nom">
+            </div>
+            <div class="col">
+              <select class="form-control" id="exampleFormControlSelect2" formControlName="type">
+                <option value="POOL">Piscine</option>
+                <option value="SPORTS_COMPLEX">Complex sportif</option>
+                <option value="MEDIA_LIBRARY">Médiathèque</option>
+              </select>
+            </div>
+              <div>
+                <button type="submit" class="btn btn-primary ml-4 mr-4">Chercher</button>
+              </div>
+          </div>
+        </form>
+        <button class="btn btn-primary col-2" (click)="fetchEstablishments()">Trouver tout</button>
+      </div>
+    </div>
+  </div>
   <div *ngFor="let e of establishments | slice: (page-1) * 6 : (page-1) * 6 + 6">
     <div>
       <div class="card border-dark m-1 ">
@@ -30,5 +55,6 @@
       </div>
     </div>
   </div>
-  <ngb-pagination [collectionSize]="establishments.length-1" [(page)]="page" [maxSize]="6" [boundaryLinks]="true"></ngb-pagination>
+  <ngb-pagination [collectionSize]="establishments.length-1" [(page)]="page" [maxSize]="6"
+                  [boundaryLinks]="true"></ngb-pagination>
 </div>

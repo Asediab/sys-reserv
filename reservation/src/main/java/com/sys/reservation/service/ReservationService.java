@@ -3,7 +3,6 @@ package com.sys.reservation.service;
 import com.sys.reservation.dto.ReservationDTO;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public interface ReservationService {
@@ -15,4 +14,6 @@ public interface ReservationService {
     void validateReservation(String validationNumber);
     boolean existsByUserAndEstablAndStartOfReservation(Long userId, Long establishmentId, Date startOfReservation);
     boolean existByValidNumb(String validationNumber);
+    Boolean availabilityOfReservationTime (ReservationDTO reservationDTO, int limitationOfReservations);
+    List<ReservationDTO> getListReservationsDispon (ReservationDTO reservationDTO, int limitationOfReservations);
 }

@@ -1,6 +1,7 @@
-<div>
-  <form [formGroup]="form" (ngSubmit)="submit()">
-
+<div class="container">
+  <p class="h2 text-center mt-3">Sur cette page, vous pouvez créer ou modifier un lieu public</p>
+  <p class="h4 text-center mt-2">Veuillez remplir tous les champs ci-dessous</p>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="mr-5 ml-5 mt-3">
     <div class="form-group">
       <label for="exampleInputNom">Nom de lieux</label>
       <input type="text" class="form-control" id="exampleInputNom" aria-describedby="nomHelp"
@@ -17,7 +18,7 @@
              formControlName="address" [ngClass]="{'is-invalid': form.get('address').touched && form.get('address').invalid}">
     </div>
     <div class="form-group">
-      <label for="exampleInputEmail1">Limit de visiteurs par heures</label>
+      <label for="exampleInputEmail1">Limit de visiteurs par heure</label>
       <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
              formControlName="clients_limit"
              [ngClass]="{'is-invalid': form.get('clients_limit').touched && form.get('clients_limit').invalid}">
@@ -31,7 +32,8 @@
         <option value="MEDIA_LIBRARY">Médiathèque</option>
       </select>
     </div>
-    <div class="form-group" >
+    <hr>
+    <div class="form-group mt-3" >
       <h4>Image</h4>
       <input type="file"  formControlName="file" (change)="selectFile($event)">
     </div>
@@ -49,6 +51,7 @@
         <ngb-timepicker class=" m-2" [(ngModel)]="lindi4" [seconds]="false"
                         [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
+      <hr>
       <div class="row align-items-center">
         <h5 class="col-2">Mardi</h5>
         <ngb-timepicker class=" m-2" [(ngModel)]="mardi1" [seconds]="false"
@@ -60,6 +63,7 @@
         <ngb-timepicker class=" m-2" [(ngModel)]="mardi4" [seconds]="false"
                         [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
+      <hr>
       <div class="row align-items-center">
         <h5 class="col-2">Mercredi</h5>
         <ngb-timepicker class=" m-2" [(ngModel)]="mercredi1" [seconds]="false"
@@ -71,6 +75,7 @@
         <ngb-timepicker class=" m-2" [(ngModel)]="mercredi4" [seconds]="false"
                         [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
+      <hr>
       <div class="row align-items-center">
         <h5 class="col-2">Jeudi</h5>
         <ngb-timepicker class=" m-2" [(ngModel)]="jeudi1" [seconds]="false"
@@ -82,6 +87,7 @@
         <ngb-timepicker class=" m-2" [(ngModel)]="jeudi4" [seconds]="false"
                         [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
+      <hr>
       <div class="row align-items-center">
         <h5 class="col-2">Vendredi</h5>
         <ngb-timepicker class=" m-2" [(ngModel)]="vendredi1" [seconds]="false"
@@ -93,6 +99,7 @@
         <ngb-timepicker class=" m-2" [(ngModel)]="vendredi4" [seconds]="false"
                         [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
+      <hr>
       <div class="row align-items-center">
         <h5 class="col-2">Samedi</h5>
         <ngb-timepicker class=" m-2" [(ngModel)]="samedi1" [seconds]="false"
@@ -104,6 +111,7 @@
         <ngb-timepicker class=" m-2" [(ngModel)]="samedi4" [seconds]="false"
                         [hourStep]="hourStep" [minuteStep]="minuteStep" [secondStep]="secondStep" [ngModelOptions]="{standalone: true}"></ngb-timepicker>
       </div>
+      <hr>
       <div class="row align-items-center">
         <h5 class="col-2">Dimanche</h5>
         <ngb-timepicker class=" m-2" [(ngModel)]="dimanche1" [seconds]="false"

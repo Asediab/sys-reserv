@@ -12,10 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.time.Duration;
+import java.util.*;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -37,11 +35,9 @@ public class ReservationServiceImpl implements ReservationService {
     public List<ReservationDTO> getAllByEstablishmentId(Long establishmentId) {
         List<ReservationDTO> dtos = new ArrayList<>();
         List<Reservation> entityList = reservationDAO.findAllByEstablishmentId(establishmentId);
-
         for (Reservation e : entityList) {
             dtos.add(toDto(e));
         }
-
         if (!dtos.isEmpty()) {
             return dtos;
         } else {
@@ -69,7 +65,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDTO createReservation(ReservationDTO reservationDTO, int limitationOfReservation) {
-        if (!availabilityOfReservationTime(reservationDTO, limitationOfReservation)){
+        if (!availabilityOfReservationTime(reservationDTO, limitationOfReservation)) {
             LOGGER.info("Exceeded the limit of reservations for this time: " + reservationDTO.getStartOfReservation());
             throw new LimiteException("Exceeded the limit of reservations for this time: " + reservationDTO.getStartOfReservation());
         } else {
@@ -79,14 +75,42 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
-    private Boolean availabilityOfReservationTime (ReservationDTO reservationDTO, int limitationOfReservations) {
-        Long count = reservationDAO.countReservationsByStartOfReservationIsLessThanEqualAndEndOfReservationEquals(reservationDTO.getStartOfReservation(), reservationDTO.getEndOfReservation());
+    @Override
+    public Boolean availabilityOfReservationTime(ReservationDTO reservationDTO, int limitationOfReservations) {
+        Long count = reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEquals(reservationDTO.getEstablishmentId(), reservationDTO.getStartOfReservation(), reservationDTO.getEndOfReservation());
         return count < limitationOfReservations;
     }
 
     @Override
+    public List<ReservationDTO> getListReservationsDispon(ReservationDTO reservationDTO, int limitationOfReservations) {
+        List<ReservationDTO> reservationDTOList = new LinkedList<>();
+        Date date1 = reservationDTO.getStartOfReservation();
+        int i = 0;
+        while (i <= 4) {
+           Date date2 = addHoursToJavaUtilDate(date1, 15L);
+           date1 = date2;
+            reservationDTO.setStartOfReservation(date2);
+            if (availabilityOfReservationTime(reservationDTO, limitationOfReservations)) {
+                ReservationDTO res = new ReservationDTO();
+                res.setStartOfReservation(reservationDTO.getStartOfReservation());
+                res.setEstablishmentId(reservationDTO.getEstablishmentId());
+                res.setEstablishmentName(reservationDTO.getEstablishmentName());
+                res.setUserFirstName(reservationDTO.getUserFirstName());
+                res.setUserId(reservationDTO.getUserId());
+                reservationDTOList.add(res);
+                i++;
+            }
+        }
+        return reservationDTOList;
+    }
+
+    private Date addHoursToJavaUtilDate(Date date, Long minutes) {
+        return Date.from(date.toInstant().plus(Duration.ofMinutes(minutes)));
+    }
+
+    @Override
     public void deleteReservation(Long id) {
-        if (!reservationDAO.existsById(id)){
+        if (!reservationDAO.existsById(id)) {
             throw new NotFoundException("Reservation with this id not exist");
         } else {
             reservationDAO.deleteById(id);
@@ -96,7 +120,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void validateReservation(String validationNumber) {
-        if (!reservationDAO.existsByValidateNumber(validationNumber)){
+        if (!reservationDAO.existsByValidateNumber(validationNumber)) {
             throw new NotFoundException("Reservation with this validationNumber: " + validationNumber + " not exist");
         } else {
             Reservation res = reservationDAO.findByValidateNumber(validationNumber);

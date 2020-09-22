@@ -49,7 +49,7 @@ public class EstablishmentController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
                                 MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> saveEstablishment(@RequestPart ("establishment") String establishmentJSON,
-                                                  @RequestPart(value = "file") MultipartFile file){
+                                                  @RequestPart(value = "file", required = false) MultipartFile file){
         EstablishmentDTO jsonEstablishment;
         try {
             jsonEstablishment = establishmentService.jsonToEntity(establishmentJSON);

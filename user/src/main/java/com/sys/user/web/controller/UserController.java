@@ -66,6 +66,17 @@ public class UserController {
         return users;
     }
 
+    @CrossOrigin
+    @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
+        if (userService.deleteUser(id)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
     public void logMeOut(HttpServletRequest request) {

@@ -7,6 +7,7 @@ import {AuthService} from '../../services/auth.service';
 import {Comment, Establishment} from '../../shared/interfaces';
 import {CommentService} from '../../services/comment.service';
 import {AlertService} from '../../shared/services/alert.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-info',
@@ -26,7 +27,8 @@ export class InfoComponent implements OnInit {
               private route: ActivatedRoute,
               private commentService: CommentService,
               public auth: AuthService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private modalService: NgbModal) {
     this.establishment = dataEstablishmentService.establishment;
   }
 
@@ -46,7 +48,13 @@ export class InfoComponent implements OnInit {
     this.commentService.delete(comment.id).subscribe(v => {
       this.establishment.comments = this.establishment.comments.filter(t => t.id !== comment.id);
       this.alertService.warning('Le commentaire a été supprimé');
+      this.modalService.dismissAll();
     });
   }
 
+  open(content): void {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    }, (reason) => {
+    });
+  }
 }

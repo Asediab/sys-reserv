@@ -42,7 +42,6 @@ export class AuthService {
   logout(): void {
     this.setToken(null);
     this.setUser(null);
-    this.alertService.success('À bie tôt!!');
   }
 
   isAuthenticated(): boolean {

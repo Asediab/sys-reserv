@@ -12,15 +12,20 @@ export class EstablishmentService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(name?: string, type?: string): Observable<Establishment[]> {
+  getAll(): Observable<Establishment[]> {
+    const params = new HttpParams();
+
+    return this.http.get<Establishment[]>(environment.urlEstablishmentApi);
+  }
+
+  search(name: string, type: string): Observable<Establishment[]> {
+    const a = name ? name : '';
+    const b = type ? type : '';
     let params = new HttpParams();
-    // tslint:disable-next-line:no-unused-expression
-    name ? params.set('name', name.trim()) : {};
-    // tslint:disable-next-line:no-unused-expression
-    type ? params.set('type', type.trim()) : {};
-    return this.http.get<Establishment[]>(environment.urlEstablishmentApi, {
-      params
-    });
+    params = params.append('name', a);
+    params = params.append('type', b);
+    console.log('Searching', params);
+    return this.http.get<Establishment[]>(environment.urlEstablishmentApi, {params});
   }
 
   getById(id: number): Observable<Establishment>{

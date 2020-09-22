@@ -1,51 +1,52 @@
-<div class="container m-2">
-  <div class="jumbotron">
-    <h1 class="display-4">{{establishment.name}}</h1>
+<div class="container">
+  <div class="jumbotron m-2">
+    <h1 class="display-4 text-center">{{establishment.name}}</h1>
     <div class="row align-items-center">
-      <p class="col h6">{{establishment.description}}</p>
+      <p class="col h6 text-center">{{establishment.description}}</p>
     </div>
     <hr class="my-4">
-    <p class="h5">Heures d'ouverture</p>
+    <p class="h5 text-center mb-3">Heures d'ouverture</p>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item"><strong>Lundi: </strong>{{establishment.timeTable.mondayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Lundi: </strong>{{establishment.timeTable.mondayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.mondayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.mondayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.mondayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Mardi: </strong>{{establishment.timeTable.tuesdayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Mardi: </strong>{{establishment.timeTable.tuesdayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.tuesdayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.tuesdayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.tuesdayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item">
+      <li class="list-group-item text-center">
         <strong>Mercredi: </strong>{{establishment.timeTable.wednesdayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.wednesdayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.wednesdayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.wednesdayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Jeudi: </strong>{{establishment.timeTable.thursdayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Jeudi: </strong>{{establishment.timeTable.thursdayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.thursdayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.thursdayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.thursdayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Vendredi: </strong>{{establishment.timeTable.fridayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Vendredi: </strong>{{establishment.timeTable.fridayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.fridayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.fridayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.fridayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Samedi: </strong>{{establishment.timeTable.saturdayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Samedi: </strong>{{establishment.timeTable.saturdayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.saturdayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.saturdayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.saturdayPMEnd | date: 'HH:mm'}}</li>
 
-      <li class="list-group-item"><strong>Dimanche: </strong>{{establishment.timeTable.sundayAMStart | date: 'HH:mm'}}
+      <li class="list-group-item text-center"><strong>Dimanche: </strong>{{establishment.timeTable.sundayAMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.sundayAMEnd | date: 'HH:mm'}}
         et {{establishment.timeTable.sundayPMStart | date: 'HH:mm'}}
         - {{establishment.timeTable.sundayPMEnd | date: 'HH:mm'}}</li>
     </ul>
     <hr class="my-4">
-    <p class="h5">{{establishment.address | titlecase}}</p>
+    <p class="h5 text-center">{{establishment.address | titlecase}}</p>
     <hr class="my-4">
+    <p class="h3 text-center">Сommentaires</p>
   </div>
   <div>
     <div *ngFor="let comment of establishment.comments | slice: (page-1) * 10 : (page-1) * 10 + 10">
@@ -55,7 +56,23 @@
         </div>
         <div class="card-body">
           <p class="card-text">{{comment.text}}</p>
-          <a (click)="deleteComment(comment)" class="btn btn-danger">Supprimer</a>
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Supprimer?</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="text-center h3">Voulez-vous supprimer ce commentaire?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Retour</button>
+              <button type="button" class="btn btn-danger" (click)="deleteComment(comment)">Supprimer</button>
+            </div>
+          </ng-template>
+
+          <button class="btn btn-danger mr-5" (click)="open(content)">Supprimer</button>
         </div>
       </div>
     </div>

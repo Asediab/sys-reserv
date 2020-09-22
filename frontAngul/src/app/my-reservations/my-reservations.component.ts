@@ -3,6 +3,7 @@ import {Reservation} from '../shared/interfaces';
 import {ReservationService} from '../services/reservation.service';
 import {AuthService} from '../services/auth.service';
 import {AlertService} from '../shared/services/alert.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-my-reservations',
@@ -18,7 +19,8 @@ export class MyReservationsComponent implements OnInit {
 
   constructor(private reservationService: ReservationService,
               public authService: AuthService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -40,6 +42,13 @@ export class MyReservationsComponent implements OnInit {
       .subscribe(() => {
         this.reservations = this.reservations.filter(t => t.id !== id);
         this.alertService.success('Reservation est supprimée');
+        this.modalService.dismissAll();
       });
+  }
+
+  open(content): void {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    }, (reason) => {
+    });
   }
 }

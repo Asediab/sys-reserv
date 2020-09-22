@@ -26,4 +26,8 @@ export class UserService {
   currentUser(): Observable<any> {
     return this.http.get<any>(environment.userInfoUri);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(environment.urlUserApi + '/' + id);
+  }
 }

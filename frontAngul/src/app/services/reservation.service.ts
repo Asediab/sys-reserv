@@ -26,6 +26,12 @@ export class ReservationService {
     });
   }
 
+  getListNearestDispon(reservation: Reservation, limit: number): Observable<Reservation[]> {
+    return this.http.post<Reservation[]>(environment.urlReservationApi + '/nearestAvailable', reservation, {
+      params: new HttpParams().set('limit', String(limit))
+    });
+  }
+
   delete(reservationId: number): Observable<void> {
     return this.http.delete<void>(environment.urlReservationApi + '/' + reservationId);
   }

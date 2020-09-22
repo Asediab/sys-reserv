@@ -1,5 +1,6 @@
-<div>
-  <form [formGroup]="form" (ngSubmit)="submit()">
+<div class="container">
+  <h3 class="text-center mt-3">Pour inscrire un nouvel employé, remplissez tous les champs ci-dessous</h3>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="m-5">
     <div class="form-group">
       <label for="exampleInputNom">Nom</label>
       <input type="email" class="form-control" id="exampleInputNom" aria-describedby="nomHelp"

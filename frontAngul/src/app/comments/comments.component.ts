@@ -5,6 +5,7 @@ import {CommentService} from '../services/comment.service';
 import {AuthService} from '../services/auth.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertService} from '../shared/services/alert.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-comments',
@@ -27,7 +28,8 @@ export class CommentsComponent implements OnInit {
   constructor(private dataEstablishmentService: DataEstablishmentService,
               private commentService: CommentService,
               public auth: AuthService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private modalService: NgbModal) {
     this.comments = this.dataEstablishmentService.establishment.comments;
   }
 
@@ -40,6 +42,7 @@ export class CommentsComponent implements OnInit {
   deleteComment(comment: Comment): void {
     this.commentService.delete(comment.id).subscribe(v => {
       this.comments = this.comments.filter(t => t.id !== comment.id);
+      this.modalService.dismissAll();
     });
   }
 
@@ -66,5 +69,11 @@ export class CommentsComponent implements OnInit {
   modify(comment: Comment): void {
     this.commentModify = comment;
     this.modal = true;
+  }
+
+  open(content): void {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    }, (reason) => {
+    });
   }
 }

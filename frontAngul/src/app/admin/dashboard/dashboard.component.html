@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <div *ngIf="!establishments; else table">
     <h3 class="text-center m-5">Vous n'avez aucun lieu public pour le moment</h3>
   </div>
@@ -6,14 +6,14 @@
     <table class="table m-1">
       <thead class="thead-dark">
       <tr>
-        <th style="width: 20rem" scope="col">Nome</th>
+        <th scope="col">Nome</th>
         <th scope="col">Type</th>
         <th scope="col">Address</th>
         <th scope="col">Client limite</th>
         <th scope="col">Comments</th>
         <th scope="col">Options</th>
         <th scope="col">
-          <button class="btn-light" (click)="redirect()">Créer un lieu</button>
+          <button class="btn btn-primary" (click)="redirect()">Créer un lieu</button>
         </th>
       </tr>
       </thead>
@@ -26,21 +26,22 @@
         <td>{{establishment.comments.length}}</td>
         <td>
           <div class="row">
-            <div class="col m-2">
-              <button class="btn-dark" [routerLink]="['/service/employees/' + establishment.id]">Employees</button>
+            <div class="col" >
+              <button class="btn-dark" style="height: 2rem; width: 7rem" [routerLink]="['/service/employees/' + establishment.id]">Employés</button>
             </div>
-            <div class="col m-2">
-              <button class="btn-danger" (click)="modify(establishment)">Modifier</button>
+            <div class="col">
+              <button class="btn-danger" style="height: 2rem; width: 7rem" (click)="modify(establishment)">Modifier</button>
             </div>
-            <div class="col m-2">
-              <button class="btn-primary" (click)="info(establishment)">Info</button>
+            <div class="col">
+              <button class="btn-primary" style="height: 2rem; width: 7rem" (click)="info(establishment)">Info</button>
             </div>
           </div>
         </td>
+        <td></td>
       </tr>
 
       </tbody>
     </table>
-    <ngb-pagination [collectionSize]="establishments.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true" class="row center"></ngb-pagination>
+    <ngb-pagination [collectionSize]="establishments.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true" class="row ml-5 mt-5" ></ngb-pagination>
   </ng-template>
 </div>
