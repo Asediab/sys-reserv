@@ -6,6 +6,8 @@ import {tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {UserService} from './user.service';
 import {AlertService} from '../shared/services/alert.service';
+import {Role} from '../shared/role.enum';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,7 @@ export class AuthService {
 
   constructor(private http: HttpClient,
               private userService: UserService,
+              private router: Router,
               private alertService: AlertService) {
   }
 
@@ -72,7 +75,18 @@ export class AuthService {
           roles: principal.principal.roles,
         };
         localStorage.setItem('user', JSON.stringify(user));
+        this.redirect(user);
       });
+    }
+  }
+
+  private redirect(user: User): void {
+    if (this.user.roles.indexOf(Role.Admin) === 0){
+      this.router.navigate(['/service', 'dashboard']);
+    } else if (this.user.roles === Role.Employee) {
+      this.router.navigate(['/employee']);
+    } else {
+      this.router.navigate(['/home']);
     }
   }
 

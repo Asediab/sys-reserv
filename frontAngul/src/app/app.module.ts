@@ -12,6 +12,7 @@ import { ErrorComponent } from './error/error.component';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from './services/auth.interceptor';
 import { CommentsComponent } from './comments/comments.component';
+import { IntroComponent } from './intro/intro.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -27,7 +28,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MyReservationsComponent,
     InfoEstablishmentComponent,
     ErrorComponent,
-    CommentsComponent
+    CommentsComponent,
+    IntroComponent
   ],
     imports: [
         BrowserModule,

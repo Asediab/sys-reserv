@@ -9,12 +9,16 @@ import {ErrorComponent} from './error/error.component';
 import {AuthGuard} from './services/auth.guard';
 import {Role} from './shared/role.enum';
 import {CommentsComponent} from './comments/comments.component';
+import {IntroComponent} from './intro/intro.component';
+import {NewUserComponent} from './shared/components/new-user/new-user.component';
 
 
 const routes: Routes = [
   {path: '', component: MainLayoutComponent,  children: [
       {path: '', redirectTo: '/', pathMatch: 'full'},
-      {path: '', component: HomePageComponent},
+      {path: '', component: IntroComponent},
+      {path: 'home', component: HomePageComponent},
+      {path: 'registration', component: NewUserComponent},
       {path: 'reservations', component: MyReservationsComponent, canActivate: [AuthGuard], data: {roles: [Role.User]}},
       {path: 'info/:id', component: InfoEstablishmentComponent, canActivate: [AuthGuard], data: {roles: [Role.User]}, children: [
           {path: 'comments', component: CommentsComponent, canActivate: [AuthGuard], data: {roles: [Role.User]}}

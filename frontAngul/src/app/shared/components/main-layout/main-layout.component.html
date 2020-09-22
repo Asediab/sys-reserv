@@ -5,14 +5,16 @@
     <div class="inner">
       <h3 class="masthead-brand">Paris</h3>
       <nav class="nav nav-masthead justify-content-center">
-        <a class="nav-link " routerLinkActive="active" [routerLink]="['/']" >Home</a>
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/reservations']">My Reservations</a>
-        <a *ngIf="auth.isAuthenticated()" class="nav-link"  (click)="logout()" >Log out</a>
+        <a class="nav-link"  [routerLink]="['/home']">Home</a>
+        <a class="nav-link"  [routerLink]="['/reservations']">My Reservations</a>
+        <a *ngIf="auth.isAuthenticated()" class="nav-link"  (click)="logout()">Log out</a>
+        <a *ngIf="!auth.isAuthenticated()" class="nav-link"  [routerLink]="['/login']">Login</a>
+        <a *ngIf="!auth.isAuthenticated()" class="nav-link"  [routerLink]="['/registration']">Registration</a>
       </nav>
     </div>
   </header>
 </div>
 </body>
-<div class="container">
+<div >
   <router-outlet></router-outlet>
 </div>

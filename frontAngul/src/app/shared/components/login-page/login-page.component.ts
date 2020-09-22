@@ -4,6 +4,7 @@ import {UserLogin} from '../../interfaces';
 import {AuthService} from '../../../services/auth.service';
 import {Router} from '@angular/router';
 import {AlertService} from '../../services/alert.service';
+import {Role} from '../../role.enum';
 
 @Component({
   selector: 'app-login-page',
@@ -15,7 +16,6 @@ export class LoginPageComponent implements OnInit {
   form: FormGroup;
 
   constructor(private auth: AuthService,
-              private router: Router,
               private alertService: AlertService) { }
 
   ngOnInit(): void {
@@ -43,9 +43,7 @@ export class LoginPageComponent implements OnInit {
     this.auth.login(userLogin).subscribe(value => {
       this.auth.setUser();
       this.form.reset();
-      this.router.navigate(['/']);
       this.alertService.success('Bienvenue!');
     });
   }
-
 }
