@@ -10,12 +10,15 @@ import com.sys.reservation.web.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.*;
 
 @Service
+@Transactional
 public class ReservationServiceImpl implements ReservationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationServiceImpl.class);
@@ -146,5 +149,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     private Reservation toEntity(ReservationDTO reservationDTO) {
         return modelMapper.map(reservationDTO, Reservation.class);
+    }
+
+    @Scheduled(cron = "0 * * ? * *")
+    public void run () {
+        Date d1 = Calendar.getInstance().getTime();
+        reservationDAO.deleteByStartOfReservationLessThanEqualAndValidIsFalse(Date.from(d1.toInstant().minus(Duration.ofMinutes(15L))));
+        reservationDAO.deleteByEndOfReservationLessThan(d1);
+        LOGGER.info("Scheduler" + d1);
     }
 }

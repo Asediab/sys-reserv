@@ -19,4 +19,8 @@ public interface ReservationDAO extends JpaRepository<Reservation, Long> {
     boolean existsByValidateNumber(String validationNumber);
 
     boolean existsByUserIdAndEstablishmentIdAndStartOfReservation(Long userId, Long establishmentId, Date startOfReservation);
+
+    int deleteByStartOfReservationLessThanEqualAndValidIsFalse(Date date);
+
+    int deleteByEndOfReservationLessThan(Date date);
 }
