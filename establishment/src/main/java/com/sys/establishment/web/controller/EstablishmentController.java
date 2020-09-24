@@ -85,7 +85,7 @@ public class EstablishmentController {
 
 
     @CrossOrigin
-    @GetMapping(value = "/image")
+    @GetMapping(value = "image")
     ResponseEntity<Resource> read(@RequestParam String name) {
         Resource fileSystemResource = fileUploadService.getFile(name);
         if (fileSystemResource.isFile()) {

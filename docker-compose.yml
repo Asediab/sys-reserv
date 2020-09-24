@@ -3,28 +3,31 @@ version: "3.7"
 services:
   eureka:
     container_name: eureka
-    image: com.sys/eureka:0.0.1
+    image: asediaboli/sys-res-e:0.1
     restart: on-failure
-    environment:
-      - JAVA_OPTS=
-        -DEUREKA=http://eureka:9094/eureka
-    depends_on:
-      - "config"
+    expose:
+      - 9090
     ports:
-      - "127.0.0.1:9094:9094"
+      - "9090:9090"
+    networks:
+      - net
 
   zuul:
     container_name: zuul
-    image: com.sys/zuul:0.0.1
+    image: asediaboli/sys-res-z:0.1
     restart: on-failure
     environment:
-      - JAVA_OPTS=
-        -DEUREKA=http://eureka:9094/eureka
+      - eureka.client.serviceUrl.defaultZone=http://eureka:9090/eureka/
     depends_on:
-      - "config"
       - "eureka"
+    expose:
+      - 9091
     ports:
-      - "127.0.0.1:9095:9095"
+      - "9091:9091"
+    links:
+      - eureka:eureka
+    networks:
+      - net
 
   postgres:
     container_name: postgres
@@ -36,19 +39,100 @@ services:
       POSTGRES_DB: usr
     volumes:
       - "./postgresd/init/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    expose:
+      - 5432
     ports:
-      - "127.0.0.1:5432:5432"
+      - "5432:5432"
+    networks:
+      - net
 
   establishment:
     container_name: establishment
-    image: com.sys/establishment:0.0.1
+    image: asediaboli/sys-res-est:0.1
     restart: on-failure
     environment:
-      - JAVA_OPTS=
-        -DEUREKA=http://eureka:9094/eureka
+      - eureka.client.serviceUrl.defaultZone=http://eureka:9090/eureka/
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/establishment
+      - security.oauth2.client.accessTokenUri=http://zuul:9091/uaa/oauth/token
+      - security.oauth2.resource.token-info-uri=http://zuul:9091/uaa/oauth/check_token
+      - security.oauth2.resource.user-info-uri==http://zuul:9091/uaa/users/current
     depends_on:
       - "zuul"
       - "eureka"
       - "postgres"
+    links:
+      - eureka:eureka
+      - zuul:zuul
+      - postgres:postgres
+    expose:
+      - 9092
     ports:
-      - "127.0.0.1:9097:9097"
+      - "9092:9092"
+    networks:
+      - net
+
+  reservation:
+    container_name: reservation
+    image: asediaboli/sys-res-res:0.1
+    restart: on-failure
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eureka:9090/eureka/
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/reservation
+      - security.oauth2.client.accessTokenUri=http://zuul:9091/uaa/oauth/token
+      - security.oauth2.resource.token-info-uri=http://zuul:9091/uaa/oauth/check_token
+      - security.oauth2.resource.user-info-uri==http://zuul:9091/uaa/users/current
+    depends_on:
+      - "zuul"
+      - "eureka"
+      - "postgres"
+    links:
+      - eureka:eureka
+      - zuul:zuul
+      - postgres:postgres
+    expose:
+      - 9095
+    ports:
+      - "9095:9095"
+    networks:
+      - net
+
+  user:
+    container_name: user
+    image: asediaboli/sys-res-user:0.1
+    restart: on-failure
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eureka:9090/eureka/
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/usr
+    depends_on:
+      - "zuul"
+      - "eureka"
+      - "postgres"
+    links:
+      - eureka:eureka
+      - postgres:postgres
+    expose:
+      - 9099
+    ports:
+      - "9099:9099"
+    networks:
+      - net
+
+  front:
+    container_name: front
+    image: asediaboli/sys-res-front:0.1
+    depends_on:
+      - "zuul"
+      - "eureka"
+      - "postgres"
+      - "user"
+    expose:
+      - 80
+    ports:
+      - "127.0.0.1:8888:80"
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge
+

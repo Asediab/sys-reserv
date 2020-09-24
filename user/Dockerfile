@@ -1,6 +1,6 @@
 FROM adoptopenjdk/openjdk14:alpine-jre
 
-EXPOSE 9092
+EXPOSE 9099
 
 ARG JAR_FILE=target/*.jar
 

@@ -19,8 +19,8 @@ jobs:
   include:
     - stage: test
       script: mvn test
-#    - stage: sonar
-#      script: ./mvnw verify sonar:sonar
+    - stage: sonar
+      script: mvn verify sonar:sonar
 
 
 after_script:

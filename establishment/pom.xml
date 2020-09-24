@@ -29,8 +29,8 @@
                         <artifactId>dockerfile-maven-plugin</artifactId>
                         <version>1.4.13</version>
                         <configuration>
-                            <repository>com.sys/${project.artifactId}</repository>
-                            <tag>${project.version}</tag>
+                            <repository>asediaboli/sys-res-est</repository>
+                            <tag>0.1</tag>
                             <buildArgs>
                                 <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                             </buildArgs>
@@ -127,4 +127,13 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
