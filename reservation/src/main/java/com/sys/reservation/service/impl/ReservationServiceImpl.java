@@ -151,11 +151,11 @@ public class ReservationServiceImpl implements ReservationService {
         return modelMapper.map(reservationDTO, Reservation.class);
     }
 
-    @Scheduled(cron = "0 * * ? * *")
+    @Scheduled(cron = "0 0/15 * ? * *")
     public void run () {
         Date d1 = Calendar.getInstance().getTime();
         reservationDAO.deleteByStartOfReservationLessThanEqualAndValidIsFalse(Date.from(d1.toInstant().minus(Duration.ofMinutes(15L))));
         reservationDAO.deleteByEndOfReservationLessThan(d1);
-        LOGGER.info("Scheduler" + d1);
+        LOGGER.info("Scheduler: " + d1);
     }
 }

@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("apiRes/reservation")
 public class ReservationController {
@@ -23,17 +23,20 @@ public class ReservationController {
     @Autowired
     private ReservationService service;
 
-
+    @CrossOrigin
     @GetMapping("byUser/{id}")
     public List<ReservationDTO> getReservationsByUser(@PathVariable("id") Long id) {
         return service.getAllByUserId(id);
     }
 
+    @CrossOrigin
     @GetMapping("byEstabl/{id}")
+    @PreAuthorize("hasAnyRole('EMPLOYEE')")
     public List<ReservationDTO> getReservationsByEstabl(@PathVariable("id") Long id) {
         return service.getAllByEstablishmentId(id);
     }
 
+    @CrossOrigin
     @PostMapping("add")
     public ResponseEntity<Void> saveReservation(@RequestBody ReservationDTO reservationDTO,
                                                   @RequestParam("limit") int limit){
@@ -46,12 +49,14 @@ public class ReservationController {
         }
     }
 
+    @CrossOrigin
     @PostMapping("nearestAvailable")
     public List<ReservationDTO> getNearestAvailableRes(@RequestBody ReservationDTO reservationDTO,
                                                        @RequestParam("limit") int limit) {
         return service.getListReservationsDispon(reservationDTO, limit);
     }
 
+    @CrossOrigin
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable("id") Long id){
         try {
@@ -63,7 +68,9 @@ public class ReservationController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("valid/{validateNumb}")
+    @PreAuthorize("hasAnyRole('EMPLOYEE')")
     public ResponseEntity<Void> validateReservation(@PathVariable("validateNumb") String validateNumb){
         if (!service.existByValidNumb(validateNumb)) {
             LOGGER.error("Reservation with validateNumber: " + validateNumb + " not exist");

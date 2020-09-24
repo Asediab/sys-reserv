@@ -13,8 +13,6 @@ export class EstablishmentService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Establishment[]> {
-    const params = new HttpParams();
-
     return this.http.get<Establishment[]>(environment.urlEstablishmentApi);
   }
 

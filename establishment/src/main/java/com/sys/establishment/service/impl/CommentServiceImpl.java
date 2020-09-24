@@ -4,7 +4,6 @@ import com.sys.establishment.dao.CommentDAO;
 import com.sys.establishment.dao.EstablishmentDAO;
 import com.sys.establishment.dto.CommentDTO;
 import com.sys.establishment.model.Comment;
-import com.sys.establishment.model.Establishment;
 import com.sys.establishment.service.CommentService;
 import com.sys.establishment.web.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
@@ -34,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws NotFoundException {
         if (!commentDAO.existsById(id)){
             throw new NotFoundException("Comment with this id not exist");
         } else {

@@ -6,12 +6,12 @@
     <p class="text-center h3 mt-3">Bienvenue sur votre page d'accueil</p>
     <div style="height: 10rem">
       <form [formGroup]="form" (ngSubmit)="submit()" class="row align-items-center mt-5 ml-5">
-        <div class="form-group col-7 d-flex flex-column justify-content-center">
+        <div class="col">
           <input class="form-control"
                  formControlName="validNumber" placeholder="Entrez le numéro de validation" style="width: 25rem"
                  [ngClass]="{'is-invalid': form.get('validNumber').touched && form.get('validNumber').invalid}">
         </div>
-        <div class="col-5 ">
+        <div class="col">
           <button type="submit" class="btn btn-primary" [disabled]="form.invalid" style="width: 10rem; height: 3rem">Valider</button>
         </div>
       </form>

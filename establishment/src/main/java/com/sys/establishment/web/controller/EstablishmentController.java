@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("apiEst/establishment")
 public class EstablishmentController {
@@ -31,6 +30,7 @@ public class EstablishmentController {
     @Autowired
     FileUploadService fileUploadService;
 
+    @CrossOrigin
     @GetMapping()
     public List<EstablishmentDTO> getEstablishments(@RequestParam (name = "name", defaultValue = "", required = false) String name,
                                                 @RequestParam (name = "type", defaultValue = "", required = false) String type) {
@@ -41,11 +41,14 @@ public class EstablishmentController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("{id}")
     public EstablishmentDTO getEstablishmentByID(@PathVariable("id") Long id) {
         return establishmentService.getOne(id);
     }
 
+
+    @CrossOrigin
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
                                 MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> saveEstablishment(@RequestPart ("establishment") String establishmentJSON,
@@ -67,6 +70,8 @@ public class EstablishmentController {
     }
 
 
+
+    @CrossOrigin
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteEstablishment(@PathVariable("id") Long id){
         try {
@@ -78,6 +83,8 @@ public class EstablishmentController {
         }
     }
 
+
+    @CrossOrigin
     @GetMapping(value = "/image")
     ResponseEntity<Resource> read(@RequestParam String name) {
         Resource fileSystemResource = fileUploadService.getFile(name);
@@ -89,5 +96,4 @@ public class EstablishmentController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
     }
-
 }
