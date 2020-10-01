@@ -49,8 +49,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     public Resource getFile(String name) {
-        Path paths = Paths.get(uploadPath).toAbsolutePath().normalize();
-        File file = new File(paths + "/" + name);
+//        Path paths = Paths.get(uploadPath).toAbsolutePath().normalize();
+//        File file = new File(paths + "/" + name);
+        File file = new File(uploadPath + "/" + name);
         if (file.isFile()){
             return new FileSystemResource(file);
         }else {

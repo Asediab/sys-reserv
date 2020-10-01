@@ -4,6 +4,7 @@ import {EstablishmentService} from '../services/establishment.service';
 import {DataEstablishmentService} from '../shared/services/data-establishment.service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-home-page',
@@ -12,17 +13,18 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class HomePageComponent implements OnInit {
 
-  establishments: Establishment[] = [];
+  establishments: Establishment[];
+
+  imageURI = environment.urlEstablishmentApi;
 
   form: FormGroup;
-
-  loading = false;
 
   page = 1;
 
   constructor(private establishmentService: EstablishmentService,
               private dataEstablishmentService: DataEstablishmentService,
               private router: Router) {
+    this.fetchEstablishments();
   }
 
   ngOnInit(): void {
@@ -34,11 +36,9 @@ export class HomePageComponent implements OnInit {
   }
 
   fetchEstablishments(): void {
-    this.loading = true;
     this.establishmentService.getAll()
-      .subscribe(establishment => {
-        this.establishments = establishment;
-        this.loading = false;
+      .subscribe(e => {
+        this.establishments = e;
         this.form.reset();
       });
   }
@@ -54,7 +54,6 @@ export class HomePageComponent implements OnInit {
     this.establishmentService.search(nom, type)
       .subscribe(v => {
         this.establishments = v;
-        this.loading = false;
         console.log(this.form.value.nom, this.form.value.type);
       });
   }

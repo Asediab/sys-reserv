@@ -10,6 +10,7 @@ create table reservation
     user_first_name      varchar(255)          not null,
     user_id              int8                  not null,
     valid                boolean default false not null,
+    active               boolean default false not null,
     validate_number      varchar(255)          not null,
     primary key (id)
 );

@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:4200")
+
 @RestController
 @RequestMapping("apiEst/comment")
 public class CommentController {
@@ -21,6 +21,7 @@ public class CommentController {
         return service.detOne(id);
     }
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<Void> saveComment(@RequestBody CommentDTO commentDTO){
         CommentDTO comment = service.save(commentDTO);
@@ -30,6 +31,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @CrossOrigin
     @PutMapping
     public ResponseEntity<Void> modifyComment(@RequestBody CommentDTO commentDTO){
         CommentDTO comment = service.save(commentDTO);
@@ -39,6 +41,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @CrossOrigin
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable("id") Long id){
         try {

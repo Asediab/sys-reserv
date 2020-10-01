@@ -16,4 +16,5 @@ public interface ReservationService {
     boolean existByValidNumb(String validationNumber);
     Boolean availabilityOfReservationTime (ReservationDTO reservationDTO, int limitationOfReservations);
     List<ReservationDTO> getListReservationsDispon (ReservationDTO reservationDTO, int limitationOfReservations);
+    List<ReservationDTO> getAllByEstablishmentIdActiveFalse(Long establishmentId);
 }

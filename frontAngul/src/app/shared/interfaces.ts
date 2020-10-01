@@ -26,6 +26,7 @@ export interface Reservation {
   endOfReservation: Date;
   dateCreated?: Date;
   lastModifiedDate?: Date;
+  active?: boolean;
 }
 
 export interface Comment {

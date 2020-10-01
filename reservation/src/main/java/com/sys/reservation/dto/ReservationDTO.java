@@ -1,6 +1,5 @@
 package com.sys.reservation.dto;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -36,6 +35,8 @@ public class ReservationDTO implements Serializable {
     private Date dateCreated;
 
     private Date lastModifiedDate;
+
+    private boolean active;
 
     public ReservationDTO() {
     }
@@ -126,5 +127,13 @@ public class ReservationDTO implements Serializable {
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

@@ -8,19 +8,21 @@ import java.util.List;
 
 public interface ReservationDAO extends JpaRepository<Reservation, Long> {
 
-    List<Reservation> findAllByEstablishmentId(Long establishmentId);
+    List<Reservation> findAllByEstablishmentIdAndActiveIsTrue(Long establishmentId);
 
-    List<Reservation> findAllByUserId(Long userId);
+    List<Reservation> findAllByUserIdAndActiveIsTrue(Long userId);
 
     Reservation findByValidateNumber(String validationNumber);
 
-    Long countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEquals(Long establishmentId, Date startOfReservation, Date endOfReservation);
+    Long countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEqualsAndActiveIsTrue(Long establishmentId, Date startOfReservation, Date endOfReservation);
 
-    boolean existsByValidateNumber(String validationNumber);
+    boolean existsByValidateNumberAndActiveIsTrue(String validationNumber);
 
-    boolean existsByUserIdAndEstablishmentIdAndStartOfReservation(Long userId, Long establishmentId, Date startOfReservation);
+    boolean existsByUserIdAndEstablishmentIdAndStartOfReservationAndActiveIsTrue(Long userId, Long establishmentId, Date startOfReservation);
 
-    int deleteByStartOfReservationLessThanEqualAndValidIsFalse(Date date);
+    List<Reservation> findAllByStartOfReservationLessThanEqualAndValidIsFalseAndActiveIsTrue(Date date);
 
-    int deleteByEndOfReservationLessThan(Date date);
+    List<Reservation> findAllByEndOfReservationLessThanAndActiveIsTrue(Date date);
+
+    List<Reservation> findAllByEstablishmentIdAndActiveIsFalse(Long establishmentId);
 }

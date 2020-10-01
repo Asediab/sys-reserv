@@ -6,6 +6,7 @@
       <h3 class="masthead-brand">{{auth.user.lastName | titlecase}}</h3>
       <nav class="nav nav-masthead justify-content-center">
         <a class="nav-link " routerLinkActive="active" [routerLink]="['/employee']" >Dashboard</a>
+        <a class="nav-link " routerLinkActive="active" [routerLink]="['/employee', 'history']" >History</a>
         <a *ngIf="auth.isAuthenticated()" class="nav-link"  (click)="logout()" >Log out</a>
       </nav>
     </div>

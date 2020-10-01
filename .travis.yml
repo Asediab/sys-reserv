@@ -21,8 +21,3 @@ jobs:
       script: mvn test
     - stage: sonar
       script: mvn verify sonar:sonar
-
-
-after_script:
-  - docker-compose -f docker/dev/docker-compose.yml stop
-  - docker-compose -f docker/dev/docker-compose.yml rm -fyml down

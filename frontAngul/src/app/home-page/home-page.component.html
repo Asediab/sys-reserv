@@ -24,13 +24,13 @@
       </div>
     </div>
   </div>
-  <div *ngFor="let e of establishments | slice: (page-1) * 6 : (page-1) * 6 + 6">
+  <div *ngFor="let e of establishments | slice: (page-1) * 10 : (page-1) * 10 + 10">
     <div>
       <div class="card border-dark m-1 ">
         <div class="row no-gutters">
           <div class="col-md-6">
-            <img [src]="'http://localhost:9091/apiEst/establishment/image?name='+e.picture" class="card-img"
-                 alt="...">
+            <img [src]="imageURI + '/image?name=' + e.picture" class="card-img"
+                 alt="{{e.picture}}">
           </div>
           <div class="col-md-6">
             <div class="card-body">
@@ -55,6 +55,5 @@
       </div>
     </div>
   </div>
-  <ngb-pagination [collectionSize]="establishments.length-1" [(page)]="page" [maxSize]="6"
-                  [boundaryLinks]="true"></ngb-pagination>
+  <ngb-pagination [collectionSize]="establishments.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true"></ngb-pagination>
 </div>

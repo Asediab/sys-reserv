@@ -42,7 +42,7 @@ services:
     expose:
       - 5432
     ports:
-      - "5432:5432"
+      - "5435:5432"
     networks:
       - net
 
@@ -55,7 +55,7 @@ services:
       - spring.datasource.url=jdbc:postgresql://postgres:5432/establishment
       - security.oauth2.client.accessTokenUri=http://zuul:9091/uaa/oauth/token
       - security.oauth2.resource.token-info-uri=http://zuul:9091/uaa/oauth/check_token
-      - security.oauth2.resource.user-info-uri==http://zuul:9091/uaa/users/current
+      - security.oauth2.resource.user-info-uri=http://zuul:9091/uaa/users/current
     depends_on:
       - "zuul"
       - "eureka"
@@ -80,7 +80,7 @@ services:
       - spring.datasource.url=jdbc:postgresql://postgres:5432/reservation
       - security.oauth2.client.accessTokenUri=http://zuul:9091/uaa/oauth/token
       - security.oauth2.resource.token-info-uri=http://zuul:9091/uaa/oauth/check_token
-      - security.oauth2.resource.user-info-uri==http://zuul:9091/uaa/users/current
+      - security.oauth2.resource.user-info-uri=http://zuul:9091/uaa/users/current
     depends_on:
       - "zuul"
       - "eureka"

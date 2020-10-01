@@ -41,4 +41,8 @@ export class EstablishmentService {
   delete(establishmentId: number) {
     return this.http.delete<void>(environment.urlEstablishmentApi + '/' + establishmentId);
   }
+
+  getImage(name: string): Observable<File> {
+    return this.http.get<File>(environment.urlEstablishmentApi + '/image?name=' + name);
+  }
 }

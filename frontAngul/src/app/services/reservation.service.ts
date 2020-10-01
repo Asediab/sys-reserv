@@ -20,6 +20,10 @@ export class ReservationService {
     return this.http.get<Reservation[]>(environment.urlReservationApi + '/byEstabl/' + id);
   }
 
+  getByEstablishmentActiveFalse(id: number): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(environment.urlReservationApi + '/byEstablNotActive/' + id);
+  }
+
   saveReservation(reservation: Reservation, limit: number): Observable<void> {
     return this.http.post<void>(environment.urlReservationApi + '/add', reservation, {
       params: new HttpParams().set('limit', String(limit))
@@ -38,5 +42,11 @@ export class ReservationService {
 
   validateReservation(validNum: string): Observable<void> {
     return this.http.get<void>(environment.urlReservationApi + '/valid/' + validNum);
+  }
+
+  timeDispon(reservation: Reservation, limit: number): Observable<void> {
+    return this.http.post<void>(environment.urlReservationApi + '/dispon', reservation, {
+      params: new HttpParams().set('limit', String(limit))
+    });
   }
 }

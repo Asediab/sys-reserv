@@ -37,7 +37,22 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationDTO> getAllByEstablishmentId(Long establishmentId) {
         List<ReservationDTO> dtos = new ArrayList<>();
-        List<Reservation> entityList = reservationDAO.findAllByEstablishmentId(establishmentId);
+        List<Reservation> entityList = reservationDAO.findAllByEstablishmentIdAndActiveIsTrue(establishmentId);
+        for (Reservation e : entityList) {
+            dtos.add(toDto(e));
+        }
+        if (!dtos.isEmpty()) {
+            return dtos;
+        } else {
+            LOGGER.error("Data Base is empty");
+            throw new NotFoundException("Data Base is empty");
+        }
+    }
+
+    @Override
+    public List<ReservationDTO> getAllByEstablishmentIdActiveFalse(Long establishmentId) {
+        List<ReservationDTO> dtos = new ArrayList<>();
+        List<Reservation> entityList = reservationDAO.findAllByEstablishmentIdAndActiveIsFalse(establishmentId);
         for (Reservation e : entityList) {
             dtos.add(toDto(e));
         }
@@ -52,7 +67,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationDTO> getAllByUserId(Long userId) {
         List<ReservationDTO> dtos = new ArrayList<>();
-        List<Reservation> entityList = reservationDAO.findAllByUserId(userId);
+        List<Reservation> entityList = reservationDAO.findAllByUserIdAndActiveIsTrue(userId);
 
         for (Reservation e : entityList) {
             dtos.add(toDto(e));
@@ -74,13 +89,14 @@ public class ReservationServiceImpl implements ReservationService {
         } else {
             LOGGER.info("Reservation created");
             reservationDTO.setValidateNumber(GeneratorValidateNumber.getAlphaNumericString(LENGTH_VALIDATION_NUMBER));
+            reservationDTO.setActive(Boolean.TRUE);
             return toDto(reservationDAO.save(toEntity(reservationDTO)));
         }
     }
 
     @Override
     public Boolean availabilityOfReservationTime(ReservationDTO reservationDTO, int limitationOfReservations) {
-        Long count = reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEquals(reservationDTO.getEstablishmentId(), reservationDTO.getStartOfReservation(), reservationDTO.getEndOfReservation());
+        Long count = reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEqualsAndActiveIsTrue(reservationDTO.getEstablishmentId(), reservationDTO.getStartOfReservation(), reservationDTO.getEndOfReservation());
         return count < limitationOfReservations;
     }
 
@@ -116,14 +132,16 @@ public class ReservationServiceImpl implements ReservationService {
         if (!reservationDAO.existsById(id)) {
             throw new NotFoundException("Reservation with this id not exist");
         } else {
-            reservationDAO.deleteById(id);
+            Reservation res = reservationDAO.getOne(id);
+            res.setActive(Boolean.FALSE);
+            reservationDAO.save(res);
             LOGGER.info("Reservation deleted");
         }
     }
 
     @Override
     public void validateReservation(String validationNumber) {
-        if (!reservationDAO.existsByValidateNumber(validationNumber)) {
+        if (!reservationDAO.existsByValidateNumberAndActiveIsTrue(validationNumber)) {
             throw new NotFoundException("Reservation with this validationNumber: " + validationNumber + " not exist");
         } else {
             Reservation res = reservationDAO.findByValidateNumber(validationNumber);
@@ -135,12 +153,12 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public boolean existByValidNumb(String validationNumber) {
-        return reservationDAO.existsByValidateNumber(validationNumber);
+        return reservationDAO.existsByValidateNumberAndActiveIsTrue(validationNumber);
     }
 
     @Override
     public boolean existsByUserAndEstablAndStartOfReservation(Long userId, Long establishmentId, Date startOfReservation) {
-        return reservationDAO.existsByUserIdAndEstablishmentIdAndStartOfReservation(userId, establishmentId, startOfReservation);
+        return reservationDAO.existsByUserIdAndEstablishmentIdAndStartOfReservationAndActiveIsTrue(userId, establishmentId, startOfReservation);
     }
 
     private ReservationDTO toDto(Reservation reservation) {
@@ -154,8 +172,16 @@ public class ReservationServiceImpl implements ReservationService {
     @Scheduled(cron = "0 0/15 * ? * *")
     public void run () {
         Date d1 = Calendar.getInstance().getTime();
-        reservationDAO.deleteByStartOfReservationLessThanEqualAndValidIsFalse(Date.from(d1.toInstant().minus(Duration.ofMinutes(15L))));
-        reservationDAO.deleteByEndOfReservationLessThan(d1);
+        List<Reservation> res = reservationDAO.findAllByStartOfReservationLessThanEqualAndValidIsFalseAndActiveIsTrue(Date.from(d1.toInstant().minus(Duration.ofMinutes(15L))));
+        List<Reservation> res2 = reservationDAO.findAllByEndOfReservationLessThanAndActiveIsTrue(d1);
+        for (Reservation r : res){
+            r.setActive(Boolean.FALSE);
+        }
+        for (Reservation r : res2){
+            r.setActive(Boolean.FALSE);
+        }
+        reservationDAO.saveAll(res);
+        reservationDAO.saveAll(res2);
         LOGGER.info("Scheduler: " + d1);
     }
 }

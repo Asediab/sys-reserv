@@ -4,49 +4,50 @@
   </div>
   <ng-template #table>
     <table class="table m-1">
-    <thead class="thead-dark">
-    <tr>
-      <th style="width: 20rem" scope="col">Nome</th>
-      <th scope="col">Date de création</th>
-      <th scope="col">Créneau</th>
-      <th scope="col">Numéro de validation</th>
-      <th scope="col">Statut</th>
-      <th scope="col">Options</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let reservation of reservations | slice: (page-1) * 10 : (page-1) * 10 + 10">
-      <th scope="row">{{reservation.establishmentName}}</th>
-      <td>{{reservation.dateCreated | date: 'mediumDate'}}</td>
-      <td>{{reservation.startOfReservation | date: 'MMM d,HH:mm'}} - {{reservation.endOfReservation | date: 'HH:mm'}}</td>
-      <td>{{reservation.validateNumber}}</td>
-      <td *ngIf="reservation.valid; else invalid">En cours</td>
-      <ng-template #invalid>
-        <td>En attente</td>
-      </ng-template>
-      <td>
-        <ng-template #content let-modal>
-          <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Supprimer?</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p class="text-center h3">Voulez-vous supprimer cette réservation?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Retour</button>
-            <button type="button" class="btn btn-danger" (click)="deleteReservation(reservation.id)">Supprimer</button>
-          </div>
+      <thead class="thead-dark">
+      <tr>
+        <th style="width: 20rem" scope="col">Nome</th>
+        <th scope="col">Date de création</th>
+        <th scope="col">Créneau</th>
+        <th scope="col">Numéro de validation</th>
+        <th scope="col">Statut</th>
+        <th scope="col">Options</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let reservation of reservations | slice: (page-1) * 10 : (page-1) * 10 + 10">
+        <th scope="row">{{reservation.establishmentName}}</th>
+        <td>{{reservation.dateCreated | date: 'mediumDate'}}</td>
+        <td>{{reservation.startOfReservation | date: 'MMM d,HH:mm'}}
+          - {{reservation.endOfReservation | date: 'HH:mm'}}</td>
+        <td>{{reservation.validateNumber}}</td>
+        <td *ngIf="reservation.valid; else invalid">En cours</td>
+        <ng-template #invalid>
+          <td>En attente</td>
         </ng-template>
-
-        <button  class="btn btn-danger" (click)="open(content)">Supprimer</button>
-      </td>
-    </tr>
-
-    </tbody>
-  </table>
-    <ngb-pagination [collectionSize]="reservations.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true" class="row center "></ngb-pagination>
+        <td>
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Supprimer?</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="text-center h3">Voulez-vous supprimer cette réservation?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Retour</button>
+              <button type="button" class="btn btn-danger" (click)="deleteReservation(reservation.id)">Supprimer
+              </button>
+            </div>
+          </ng-template>
+          <button class="btn btn-danger" (click)="open(content)">Supprimer</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <ngb-pagination [collectionSize]="reservations.length-1" [(page)]="page" [maxSize]="10" [boundaryLinks]="true"
+                    class="row center "></ngb-pagination>
   </ng-template>
 </div>

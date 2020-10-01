@@ -31,7 +31,7 @@ class ReservationServiceImplTest {
     @Test
     void testGetAllByEstablishmentIdExist() {
         Reservation res2 = new Reservation();
-        when(reservationDAO.findAllByEstablishmentId(1L)).thenReturn(Arrays.<Reservation>asList(res2));
+        when(reservationDAO.findAllByEstablishmentIdAndActiveIsTrue(1L)).thenReturn(Arrays.<Reservation>asList(res2));
         List<ReservationDTO> result = reservationServiceImpl.getAllByEstablishmentId(1L);
         Assertions.assertNotNull(result);
 
@@ -39,21 +39,21 @@ class ReservationServiceImplTest {
 
     @Test
     void testGetAllByEstablishmentIdNotExist() {
-        when(reservationDAO.findAllByEstablishmentId(10L)).thenReturn(Collections.emptyList());
+        when(reservationDAO.findAllByEstablishmentIdAndActiveIsTrue(10L)).thenReturn(Collections.emptyList());
 
         Assertions.assertThrows(NotFoundException.class, () -> reservationServiceImpl.getAllByEstablishmentId(10L));
     }
 
     @Test
     void testGetAllByUserId() {
-        when(reservationDAO.findAllByUserId(1L)).thenReturn(Collections.emptyList());
+        when(reservationDAO.findAllByUserIdAndActiveIsTrue(1L)).thenReturn(Collections.emptyList());
 
         Assertions.assertThrows(NotFoundException.class, () -> reservationServiceImpl.getAllByUserId(1L));
     }
 
     @Test
     void testCreateReservation() {
-        when(reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEquals(anyLong(), any(), any())).thenReturn(Long.valueOf(5));
+        when(reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEqualsAndActiveIsTrue(anyLong(), any(), any())).thenReturn(Long.valueOf(5));
         ReservationDTO reserv = new ReservationDTO();
         reserv.setValidateNumber("fefe");
         reserv.setEndOfReservation(Calendar.getInstance().getTime());
@@ -68,7 +68,7 @@ class ReservationServiceImplTest {
 
     @Test
     void testAvailabilityOfReservationTime() {
-        when(reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEquals(anyLong(), any(), any())).thenReturn(5L);
+        when(reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEqualsAndActiveIsTrue(anyLong(), any(), any())).thenReturn(5L);
 
         Boolean result = reservationServiceImpl.availabilityOfReservationTime(new ReservationDTO(), 10);
         Assertions.assertTrue(result);
@@ -77,14 +77,14 @@ class ReservationServiceImplTest {
     @Test
     void testValidateReservation() {
         when(reservationDAO.findByValidateNumber(anyString())).thenReturn(new Reservation());
-        when(reservationDAO.existsByValidateNumber(anyString())).thenReturn(true);
+        when(reservationDAO.existsByValidateNumberAndActiveIsTrue(anyString())).thenReturn(true);
 
         reservationServiceImpl.validateReservation("validationNumber");
     }
 
     @Test
     void testExistByValidNumb() {
-        when(reservationDAO.existsByValidateNumber(anyString())).thenReturn(true);
+        when(reservationDAO.existsByValidateNumberAndActiveIsTrue(anyString())).thenReturn(true);
 
         boolean result = reservationServiceImpl.existByValidNumb("validationNumber");
         Assertions.assertEquals(true, result);
@@ -92,17 +92,9 @@ class ReservationServiceImplTest {
 
     @Test
     void testExistsByUserAndEstablAndStartOfReservation() {
-        when(reservationDAO.existsByUserIdAndEstablishmentIdAndStartOfReservation(anyLong(), anyLong(), any())).thenReturn(true);
+        when(reservationDAO.existsByUserIdAndEstablishmentIdAndStartOfReservationAndActiveIsTrue(anyLong(), anyLong(), any())).thenReturn(true);
 
         boolean result = reservationServiceImpl.existsByUserAndEstablAndStartOfReservation(1L, 1L, new GregorianCalendar(2020, Calendar.SEPTEMBER, 23, 22, 9).getTime());
         Assertions.assertEquals(true, result);
-    }
-
-    @Test
-    void testRun() {
-        when(reservationDAO.deleteByStartOfReservationLessThanEqualAndValidIsFalse(any())).thenReturn(0);
-        when(reservationDAO.deleteByEndOfReservationLessThan(any())).thenReturn(0);
-
-        reservationServiceImpl.run();
     }
 }

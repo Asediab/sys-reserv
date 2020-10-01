@@ -56,6 +56,8 @@ public class Reservation implements Serializable {
     @LastModifiedDate
     private Date lastModifiedDate;
 
+    private boolean active;
+
     public Reservation() {
     }
 
@@ -145,5 +147,13 @@ public class Reservation implements Serializable {
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

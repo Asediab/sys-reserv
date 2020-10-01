@@ -3,8 +3,8 @@ import {Establishment, Reservation} from '../shared/interfaces';
 import {DataEstablishmentService} from '../shared/services/data-establishment.service';
 import {EstablishmentService} from '../services/establishment.service';
 import {ActivatedRoute, Params} from '@angular/router';
-import {NgbDate, NgbDateStruct, NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
-import {FormGroup} from '@angular/forms';
+import {NgbDate, NgbDateStruct, NgbModal, NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ReservationService} from '../services/reservation.service';
 import {AuthService} from '../services/auth.service';
 import {AlertService} from '../shared/services/alert.service';
@@ -24,7 +24,11 @@ export class InfoEstablishmentComponent implements OnInit {
 
   form: FormGroup;
 
+  textModal: string;
+
   model: NgbDate;
+
+  resOk = false;
 
   support = false;
 
@@ -39,13 +43,14 @@ export class InfoEstablishmentComponent implements OnInit {
               private establishmentService: EstablishmentService,
               private route: ActivatedRoute,
               private authService: AuthService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private modalService: NgbModal) {
     this.establishment = dataEstablishmentService.establishment;
   }
 
   ngOnInit(): void {
     this.form = new FormGroup({});
-    if (!this.establishment){
+    if (!this.establishment) {
       this.route.params.subscribe((params: Params) => {
         this.establishmentService.getById(params.id)
           .subscribe(establishment => {
@@ -59,8 +64,6 @@ export class InfoEstablishmentComponent implements OnInit {
   submit(): void {
     const dateStart: Date = new Date(this.model.year, this.model.month - 1, this.model.day, this.timeStart.hour, this.timeStart.minute);
     const dateEnd: Date = new Date(this.model.year, this.model.month - 1, this.model.day, this.timeEnd.hour, this.timeEnd.minute);
-    console.log(dateStart);
-    console.log(this.model);
     this.reservation = {
       startOfReservation: dateStart,
       endOfReservation: dateEnd,
@@ -69,18 +72,17 @@ export class InfoEstablishmentComponent implements OnInit {
       userFirstName: this.authService.user.firstName,
       userId: this.authService.user.id,
     };
-    this.save(this.reservation);
   }
 
-  private save(reservation: Reservation): void {
-    if (this.checkWorkingHours(reservation)) {
-      this.reservationService.saveReservation(reservation, this.establishment.clients_limit).subscribe(() => {
+  save(): void {
+    if (this.checkWorkingHours(this.reservation)) {
+      this.reservationService.saveReservation(this.reservation, this.establishment.clients_limit).subscribe(() => {
         this.timeStart = {hour: 0, minute: 0, second: 0};
         this.timeEnd = {hour: 0, minute: 0, second: 0};
         this.alertService.success('Réservation créée');
         this.support = false;
       }, error => {
-        this.reservationService.getListNearestDispon(reservation, this.establishment.clients_limit).subscribe(v => {
+        this.reservationService.getListNearestDispon(this.reservation, this.establishment.clients_limit).subscribe(v => {
           this.reservationsNearestDispon = v;
           this.support = true;
           console.log(v);
@@ -89,11 +91,12 @@ export class InfoEstablishmentComponent implements OnInit {
     } else {
       this.alertService.warning('Vous ne pouvez pas faire de réservation pour les heures non ouvrées');
     }
+    this.modalService.dismissAll();
   }
 
   private checkWorkingHours(reservation: Reservation): boolean {
     if (this.checkEndReservNotLesStartReserv(reservation.startOfReservation, reservation.endOfReservation)) {
-      switch (reservation.startOfReservation.getDay()){
+      switch (reservation.startOfReservation.getDay()) {
         case 1 : {
           return this.compareDateByTimeTable(reservation, this.dataEstablishmentService.establishment.timeTable.mondayAMStart,
             this.dataEstablishmentService.establishment.timeTable.mondayAMEnd,
@@ -137,11 +140,11 @@ export class InfoEstablishmentComponent implements OnInit {
             this.dataEstablishmentService.establishment.timeTable.sundayPMEnd);
         }
         default : {
-          return false;
+          return true;
         }
       }
     } else {
-      this.alertService.success('L\'heure de fin de la réservation ne peut pas être antérieure au début de la réservation');
+      this.alertService.success('L\'heure de fin de la réservation ne peut pas être antérieure de début de la réservation');
     }
   }
 
@@ -152,38 +155,86 @@ export class InfoEstablishmentComponent implements OnInit {
       dateTimeTable.getMinutes());
 
     const same = dateRes.getTime() === dateCompTimeTable.getTime();
-    if (same) { return 0; }
+    if (same) {
+      return 0;
+    }
 
     // Check if the first is greater than second
-    if (dateRes > dateCompTimeTable) { return 1; }
+    if (dateRes > dateCompTimeTable ) {
+      return 1;
+    }
 
     // Check if the first is less than second
-    if (dateRes < dateCompTimeTable) { return -1; }
+    if (dateRes < dateCompTimeTable) {
+      return -1;
+    }
   }
 
   private checkEndReservNotLesStartReserv(start: Date, end: Date): boolean {
     const date1 = new Date(start);
     const date2 = new Date(end);
-    if (date1.getTime() === date2.getTime() && date1 > date2) {return false; }
-    if (date1 < date2) {return true; }
+    if (date1.getTime() === date2.getTime() && date1 > date2) {
+      return false;
+    }
+    if (date1 < date2) {
+      return true;
+    }
   }
 
   // tslint:disable-next-line:max-line-length
   private compareDateByTimeTable(reservation: Reservation, dateAMStart: Date, dateAMEnd: Date, datePMStart: Date, datePMEnd: Date): boolean {
-    if ((this.compareDate(reservation.startOfReservation, dateAMStart) === -1 ||
-      (this.compareDate(reservation.startOfReservation, datePMEnd) === 1))
+    // tslint:disable-next-line:max-line-length
+    if (((this.compareDate(reservation.startOfReservation, dateAMStart) === 1 || this.compareDate(reservation.startOfReservation, dateAMStart) === 0) &&
+      // tslint:disable-next-line:max-line-length
+      (this.compareDate(reservation.startOfReservation, dateAMEnd) === -1 || this.compareDate(reservation.startOfReservation, dateAMEnd) === 0))
       &&
-      (this.compareDate(reservation.startOfReservation, dateAMEnd) === 1 ||
-        (this.compareDate(reservation.startOfReservation, datePMStart) === -1))) {
-      return false;
-    } else if ((this.compareDate(reservation.endOfReservation, dateAMStart) === -1 ||
-      (this.compareDate(reservation.endOfReservation, datePMEnd) === 1))
-      &&
-      (this.compareDate(reservation.endOfReservation, dateAMEnd) === 1 ||
-        (this.compareDate(reservation.endOfReservation, datePMStart) === -1))) {
-      return false;
-    } else {
+      // tslint:disable-next-line:max-line-length
+      ((this.compareDate(reservation.endOfReservation, dateAMStart) === 1 || this.compareDate(reservation.endOfReservation, dateAMStart) === 0) &&
+        // tslint:disable-next-line:max-line-length
+        ((this.compareDate(reservation.endOfReservation, dateAMEnd) === -1 || this.compareDate(reservation.endOfReservation, dateAMEnd) === 0)))) {
       return true;
+      // tslint:disable-next-line:max-line-length
+    } else if (((this.compareDate(reservation.startOfReservation, datePMStart) === 1 || this.compareDate(reservation.startOfReservation, datePMStart) === 0) &&
+      // tslint:disable-next-line:max-line-length
+      (this.compareDate(reservation.startOfReservation, datePMEnd) === -1 || this.compareDate(reservation.startOfReservation, datePMEnd) === 0))
+      &&
+      // tslint:disable-next-line:max-line-length
+      ((this.compareDate(reservation.endOfReservation, datePMStart) === 1 || this.compareDate(reservation.endOfReservation, datePMStart) === 0) &&
+        // tslint:disable-next-line:max-line-length
+        ((this.compareDate(reservation.endOfReservation, datePMEnd) === -1 || this.compareDate(reservation.endOfReservation, datePMEnd) === 0)))) {
+      return true;
+    } else {
+      return false;
     }
+  }
+
+  check(content): void {
+    this.resOk = false;
+    this.textModal = '...';
+    if (this.model) {
+      this.submit();
+      console.log(this.reservation, this.checkWorkingHours(this.reservation));
+
+      if (this.checkWorkingHours(this.reservation)) {
+        this.reservationService.timeDispon(this.reservation, this.establishment.clients_limit).subscribe(value => {
+          this.textModal = 'La réservation pour l\'heure et la date choisies est disponible.';
+          this.resOk = true;
+        }, error => {
+          this.textModal = 'Malheureusement, pour l\'heure et la date sélectionnées, la réservation n\'est pas possible en raison du dépassement de la limite de visiteurs';
+        });
+      } else {
+        this.textModal = 'Vous ne pouvez pas faire de réservation pour les heures non ouvrées';
+      }
+
+    } else {
+      this.textModal = 'Sélectionnez la date et l\'heure souhaitées Pour vérifier les places disponibles';
+    }
+    this.open(content);
+  }
+
+  open(content): void {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    }, (reason) => {
+    });
   }
 }

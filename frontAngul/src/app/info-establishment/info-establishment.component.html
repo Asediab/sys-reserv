@@ -46,6 +46,8 @@
     <hr class="my-4">
     <p class="h5 text-center">{{establishment.address | titlecase}}</p>
     <hr class="my-4">
+    <p class="h5 text-center">Nombre de visiteurs autorisés: {{establishment.clients_limit}}</p>
+    <hr class="my-4">
     <h3 class="text-center">Réservez votre session</h3>
     <p class="text-center">Pour faire une réservation, sélectionnez la date et l'heure souhaitées dans les champs ci-dessous</p>
     <div class="row align-items-center">
@@ -77,11 +79,36 @@
         </div>
       </div>
       <div class="col">
-        <a class="btn btn-primary btn-lg" (click)="submit()" role="button">Reservation</a>
+
+
+
+
+
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Info</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="text-center h3">{{textModal}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Retour</button>
+            <button *ngIf="resOk" type="button" class="btn btn-danger" (click)="save()">Réserver</button>
+          </div>
+        </ng-template>
+
+        <button  class="btn btn-primary btn-lg" (click)="check(content)">Vérifier</button>
       </div>
+
+
+
+
     </div>
     <div *ngIf="support">
-      <h4 class="text-center">Désolé, mais l'heure que vous avez sélectionnée n'est pas disponible, vous pouvez sélectionner
+      <h4 class="text-center" style="color: red">Désolé, mais l'heure que vous avez sélectionnée n'est pas disponible, vous pouvez sélectionner
         dans la liste l'heure disponible la plus proche</h4>
       <div *ngFor="let reservation of reservationsNearestDispon" class="row">
         <div class="col text-center m-3">{{reservation.startOfReservation | date: 'MMM d,HH:mm'}}</div>

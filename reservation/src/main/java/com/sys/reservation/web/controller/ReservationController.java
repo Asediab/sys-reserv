@@ -37,6 +37,13 @@ public class ReservationController {
     }
 
     @CrossOrigin
+    @GetMapping("byEstablNotActive/{id}")
+    @PreAuthorize("hasAnyRole('EMPLOYEE')")
+    public List<ReservationDTO> getReservationsByEstablActiveFalse(@PathVariable("id") Long id) {
+        return service.getAllByEstablishmentIdActiveFalse(id);
+    }
+
+    @CrossOrigin
     @PostMapping("add")
     public ResponseEntity<Void> saveReservation(@RequestBody ReservationDTO reservationDTO,
                                                   @RequestParam("limit") int limit){
@@ -77,6 +84,19 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             service.validateReservation(validateNumb);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping("dispon")
+    @PreAuthorize("hasAnyRole('USER')")
+    public ResponseEntity<Void> disponReservation(@RequestBody ReservationDTO reservationDTO,
+                                                  @RequestParam("limit") int limit){
+        if (!service.availabilityOfReservationTime(reservationDTO, limit)) {
+            LOGGER.error("En disponible");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
     }

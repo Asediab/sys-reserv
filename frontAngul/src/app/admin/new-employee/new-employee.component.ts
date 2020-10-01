@@ -4,6 +4,7 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {User} from '../../shared/interfaces';
 import {UserService} from '../../services/user.service';
 import {AlertService} from '../../shared/services/alert.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-new-employee',
@@ -18,7 +19,8 @@ export class NewEmployeeComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              public location: Location) {
   }
 
   ngOnInit(): void {
