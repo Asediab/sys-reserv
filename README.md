@@ -4,7 +4,7 @@
 
 
 # OCR - Projet 12
-
+Système déployé sur AWS http://3.137.172.245:8888/ 
 ### Objectifs du projet
 
 Pendant le confinement de Covid-19, chaque lieu public peut desservir un nombre limité de visiteurs en même temps. Ce projet offre un système de réservation amélioré aux lieux publics d’une ville. Ce qui aidera à gérer le nombre de visiteurs sur une période de temps spécifique et fournira aux utilisateurs un système de réservation pratique.
