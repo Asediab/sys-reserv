@@ -1,9 +1,12 @@
 # OCR - Projet 12
 
-##Objectifs du projet
+### Objectifs du projet
+
 Pendant le confinement de Covid-19, chaque lieu public peut desservir un nombre limité de visiteurs en même temps. Ce projet offre un système de réservation amélioré aux lieux publics d’une ville. Ce qui aidera à gérer le nombre de visiteurs sur une période de temps spécifique et fournira aux utilisateurs un système de réservation pratique.
 Cela réduira par la suite le nombre d’infections.
-###Description du projet
+
+### Description du projet
+
 Un système d’information de lieux publics municipales (médiatiques, piscines, centres sportifs) comportant les fonctions suivantes:
 
     • Un site web
