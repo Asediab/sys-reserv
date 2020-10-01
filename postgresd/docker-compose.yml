@@ -1,0 +1,12 @@
+version: '2'
+services:
+  sysreserv.db:
+    image: postgres:12.3
+    ports:
+      - "127.0.0.1:5435:5432"
+    volumes:
+      - "./init/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    environment:
+      POSTGRES_USER: sysreserv
+      POSTGRES_PASSWORD: sysreserv
+      POSTGRES_DB: usr
