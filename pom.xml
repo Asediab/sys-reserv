@@ -24,6 +24,7 @@
     <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
     <sonar.projectKey>Asediab_sys-reserv</sonar.projectKey>
     <sonar.organization>asediab</sonar.organization>
+    <sonar.login>4aa64a1a17ef3a439af3ce0d12b78ecdfe183ba5</sonar.login>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
     <sonar.language>java</sonar.language>
@@ -41,7 +42,10 @@
       **/*Configuration.java,
       **/*Exception.java,
       **/*Controller.java,
-      **/*Config.java
+      **/*Config.java,
+      **/CorsFilter.java,
+      **/GeneratorValidateNumber.java,
+      **/*Application.java
     </sonar.coverage.exclusions>
     <sonar.cpd.exclusions>
       **/*Bean.java,

@@ -48,7 +48,6 @@ public class ReservationController {
     public ResponseEntity<Void> saveReservation(@RequestBody ReservationDTO reservationDTO,
                                                   @RequestParam("limit") int limit){
         if (service.existsByUserAndEstablAndStartOfReservation(reservationDTO.getUserId(), reservationDTO.getEstablishmentId(), reservationDTO.getStartOfReservation())) {
-            LOGGER.error("Reservation exist");
             throw new ReservationExistException("Reservation exist");
         } else {
             ReservationDTO reservation = service.createReservation(reservationDTO, limit);
@@ -80,7 +79,6 @@ public class ReservationController {
     @PreAuthorize("hasAnyRole('EMPLOYEE')")
     public ResponseEntity<Void> validateReservation(@PathVariable("validateNumb") String validateNumb){
         if (!service.existByValidNumb(validateNumb)) {
-            LOGGER.error("Reservation with validateNumber: " + validateNumb + " not exist");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             service.validateReservation(validateNumb);
@@ -94,7 +92,6 @@ public class ReservationController {
     public ResponseEntity<Void> disponReservation(@RequestBody ReservationDTO reservationDTO,
                                                   @RequestParam("limit") int limit){
         if (!service.availabilityOfReservationTime(reservationDTO, limit)) {
-            LOGGER.error("En disponible");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).build();

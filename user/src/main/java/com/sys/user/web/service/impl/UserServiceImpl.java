@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
             user.setRoles(Role.USER);
             LOGGER.info("User was created");
         } else {
-            user.setRoles(Role.ADMIN);
-            LOGGER.info("Admin was created");
+//            user.setRoles(Role.ADMIN);
+//            LOGGER.info("Admin was created");
         }
         return toDto(repository.save(toEntity(user)));
     }

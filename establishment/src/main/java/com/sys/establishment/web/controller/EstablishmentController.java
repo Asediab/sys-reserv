@@ -85,16 +85,13 @@ public class EstablishmentController {
 
     @CrossOrigin
     @GetMapping(value = "image")
-    ResponseEntity<Resource> read(@RequestParam (name = "name", required = true) String name) {
+    public ResponseEntity<Resource> read(@RequestParam (name = "name", required = true) String name) {
         Resource fileSystemResource = fileUploadService.getFile(name);
-        LOGGER.info("Get image: " + name);
         if (fileSystemResource.isFile()) {
-            LOGGER.info("Get image: " + name + " OK");
             return ResponseEntity.ok()
                     .contentType(MediaType.IMAGE_JPEG)
                     .body(fileSystemResource);
         } else {
-            LOGGER.info("Get image: " + name + " Not");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
