@@ -36,19 +36,19 @@ La procédure est la suivante :
 4) Démarrer le système en utilisant les commandes :
 5) Ouvrir un browser web à l'adresse http://localhost:8888
 
-`Lancement` 
+Lancement
 
-docker-compose up
+`docker-compose up`
 
-`Arrêt` 
+Arrêt
 
-docker-compose stop
+`docker-compose stop`
 
-`Remise à zero`
+Remise à zero
 
-docker-compose stop
+`docker-compose stop`
 
-docker-compose rm -v
+`docker-compose rm -v`
 
 
    

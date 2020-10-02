@@ -45,7 +45,8 @@
       **/*Config.java,
       **/CorsFilter.java,
       **/GeneratorValidateNumber.java,
-      **/*Application.java
+      **/*Application.java,
+      **/FileUploadServiceImpl.java
     </sonar.coverage.exclusions>
     <sonar.cpd.exclusions>
       **/*Bean.java,
