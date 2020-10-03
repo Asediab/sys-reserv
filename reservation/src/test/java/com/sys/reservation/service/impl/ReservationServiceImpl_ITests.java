@@ -2,24 +2,18 @@ package com.sys.reservation.service.impl;
 
 import com.sys.reservation.dao.ReservationDAO;
 import com.sys.reservation.dto.ReservationDTO;
-import com.sys.reservation.model.Reservation;
 import com.sys.reservation.web.exception.NotFoundException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Calendar;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ReservationServiceImpl_ITests {
 
     @Autowired
@@ -28,13 +22,11 @@ public class ReservationServiceImpl_ITests {
     @Autowired
     ReservationServiceImpl reservationService = new ReservationServiceImpl(reservationDAO);
 
-    ReservationDTO reserv;
-    Reservation res;
-    Long id;
+    static ReservationDTO reserv;
+    static Long id;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    @BeforeAll
+    static void setUp() {
         reserv = new ReservationDTO();
         reserv.setValidateNumber("fefefe");
         reserv.setEndOfReservation(Calendar.getInstance().getTime());
@@ -44,20 +36,11 @@ public class ReservationServiceImpl_ITests {
         reserv.setUserId(1L);
         reserv.setEstablishmentName("name");
         reserv.setValid(false);
-
-        res = new Reservation();
-        res.setValidateNumber("fefefe");
-        res.setEndOfReservation(Calendar.getInstance().getTime());
-        res.setStartOfReservation(Calendar.getInstance().getTime());
-        res.setEstablishmentId(1L);
-        res.setUserFirstName("User");
-        res.setUserId(1L);
-        res.setEstablishmentName("name");
-        res.setValid(false);
     }
 
 
     @Test
+    @Order(1)
     @DisplayName("Test methode createReservation()")
     void testCreateReservation() {
         ReservationDTO result = reservationService.createReservation(reserv, 20);
@@ -66,21 +49,16 @@ public class ReservationServiceImpl_ITests {
     }
 
     @Test
+    @Order(2)
     @DisplayName("Test methode getListReservationsDispon()")
     void testGetListReservationsDispon() {
         List<ReservationDTO> result = reservationService.getListReservationsDispon(reserv, 20);
         Assertions.assertEquals(4,result.size() - 1);
     }
 
-    @Test
-    @DisplayName("Test methode delete() reservation exist")
-    void testDeleteCommentExist() {
-        assertThatCode(() -> reservationService.deleteReservation(id))
-                .doesNotThrowAnyException();
-        assertFalse(reservationDAO.existsById(id));
-    }
 
     @Test
+    @Order(4)
     @DisplayName("Test methode delete() reservation not exist")
     void testDeleteCommentNotExist() {
         assertThrows(NotFoundException.class, () -> {

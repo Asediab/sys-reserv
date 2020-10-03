@@ -93,13 +93,6 @@ class ReservationServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test methode createReservation()")
-    void testCreateReservation() {
-        when(reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEqualsAndActiveIsTrue(anyLong(), any(), any())).thenReturn(Long.valueOf(5));
-        Assertions.assertNotNull(reservationServiceImpl.createReservation(reserv, 6));
-    }
-
-    @Test
     @DisplayName("Test methode availabilityOfReservationTime()")
     void testAvailabilityOfReservationTime() {
         when(reservationDAO.countReservationsByEstablishmentIdAndStartOfReservationGreaterThanEqualAndEndOfReservationEqualsAndActiveIsTrue(anyLong(), any(), any())).thenReturn(5L);
