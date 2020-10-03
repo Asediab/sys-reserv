@@ -35,7 +35,6 @@ class CommentServiceImpl_ITest {
     @BeforeEach
     void setUp() {
         Establishment establishment = new Establishment();
-        establishment.setId(1L);
         commentDTO.setAuthor("Author");
         commentDTO.setEstablishmentId(1L);
         commentDTO.setText("Comment Text");
